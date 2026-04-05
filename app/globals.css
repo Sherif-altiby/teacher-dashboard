@@ -1,26 +1,98 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* --- Primary Brand --- */
+  --color-accent: #5700ff; /* Your Signature Purple */
+  --color-accent-soft: #e8d9ff; /* For hover states and subtle highlights */
+
+  /* --- Modern Neutrals (Glassmorphism Ready) --- */
+  --color-background: #f8fafc; /* Off-white to reduce eye strain */
+  --color-sidebar: #ffffff; /* Pure white for elevation */
+  --color-card: #ffffff;
+  --color-border: #e2e8f0; /* Soft slate border */
+
+  /* --- Typography Hierarchy --- */
+  --color-text-main: #0f172a; /* Deep Navy/Slate for readability */
+  --color-text-muted: #64748b; /* Support text */
+
+  /* --- Dashboard Semantics (Data & Status) --- */
+  --color-success: #10b981; /* Emerald for high grades/attendance */
+  --color-warning: #f59e0b; /* Amber for "Needs Attention" */
+  --color-error: #ef4444; /* Rose-Red for failing/absent */
+  --color-info: #0ea5e9; /* Sky Blue for general updates */
+
+  /* --- Surface Effects --- */
+  --shadow-premium: 0 20px 50px rgba(87, 0, 255, 0.05);
+  --radius-dashboard: 1.25rem;
+
+  /* Navigation Specifics */
+  --color-nav-active-bg: rgba(87, 0, 255, 0.08); /* Soft purple tint */
+  --color-nav-hover-bg: #f1f5f9; /* Very light slate */
+  --color-nav-icon: #94a3b8; /* Default icon color */
+
+  /* Sidebar Width for Layout Consistency */
+  --spacing-sidebar-w: 18rem; /* 288px */
+
+  --color-subject-math: #0ea5e9; /* Sky Blue */
+  --color-subject-science: #10b981; /* Emerald */
+  --color-subject-history: #f59e0b; /* Amber */
+  --color-subject-english: #6366f1; /* Indigo */
+
+  --color-header-bg: rgba(255, 255, 255, 0.8);
+  --blur-header: 12px;
+
+  --font-sans: var(--font-ibm-plex), ui-sans-serif, system-ui;
+
+  --color-sidebar-bg: #ffffff;
+  --color-nav-hover: #f8fafc;
+  --color-nav-active: rgba(87, 0, 255, 0.06);
+  --color-nav-text: #64748b;
+  --color-nav-text-active: #5700ff;
+
+  --shadow-sidebar: 4px 0 24px rgba(0, 0, 0, 0.02);
+
+  --header-height: 72px;
+  --sidebar-width: 280px;
+  --sidebar-margin: 1rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@theme { 
+  --bg-main: "#eee"
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.main-container {
+  @apply !w-full mx-auto px-10;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+
+/* Target only the div with our custom class */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px; /* Very thin & elegant */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent; 
+  margin-block: 24px; /* Stops scrollbar from hitting the rounded corners */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #E2E8F0; /* Slate-200 equivalent */
+  border-radius: 100px;
+  transition: all 0.3s ease;
+}
+
+/* The High-End Hover Effect */
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background: #5700FF; /* Your signature Purple */
+  box-shadow: 0 0 10px rgba(87, 0, 255, 0.2);
+}
+
+/* For Firefox support */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #E2E8F0 transparent;
+}
+
+button{
+  cursor: pointer;
 }
