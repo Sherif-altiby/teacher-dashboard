@@ -41,7 +41,8 @@ export interface Course {
   image: string;
   price: number,
   offer: number,
-  level: string
+  level: string,
+  status: string
 }
 
 export interface AuthState {
@@ -65,5 +66,37 @@ export interface ListItem {
     image: string
   };
   image: string;
+  createdAt: Date
+}
+
+export interface ResultItemInterface {
+  _id: string;
+  quiz: string;
+  count: number;
+  correctAnswersCount: number;
+  course: number;
+  score: number;
+  totalQuestions: number;
+  student: {
+    _id: string;
+    name: string
+  }
+  createdAt: Date
+}
+
+export interface Note {
+  _id: string;
+  teacher: string;
+  subject: {
+    _id: string;
+    name: string;
+  }
+  course: {
+    _id: string;
+    title: string;
+  }
+  title: string;
+  level: string;
+  pdf: string;
   createdAt: Date
 }

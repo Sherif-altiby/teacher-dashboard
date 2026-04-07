@@ -9,11 +9,15 @@ import { subjectCourses } from "@/app/services/coursesService";
 import SubjectCardSkeleton from "@/app/skeleton/SubjectSkeleton";
 import AddCourseModal from "@/app/components/course/AddCourseModel";
 import { useLevelStore } from "@/app/store/levelsStore";
+import MainButton from "@/app/components/common/MainButton";
+import UpdateCourseModel from "@/app/components/course/UpdateCourseModel";
+import { Course } from "@/app/types";
 
 export default function CoursesPage() {
   const { subId } = useParams();
   const [level, setLevel] = useState<string>("");
   const [showAddCourse, setShowAddCourse] = useState(false);
+  
 
   const levels = useLevelStore((s) => s.levels);
 
@@ -28,6 +32,7 @@ export default function CoursesPage() {
       {/* Add Course Modal */}
       {showAddCourse && <AddCourseModal showAddCourse={setShowAddCourse} subId={subId as string} />}
 
+
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
         <div>
@@ -35,13 +40,8 @@ export default function CoursesPage() {
           <p className="text-slate-500 text-sm mt-1">تصفح وأدر كورسات المادة الحالية</p>
         </div>
 
-        <button
-          className="flex items-center justify-center gap-2 bg-[#0066FF] text-white px-8 py-3.5 rounded-lg hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 active:scale-95"
-          onClick={() => setShowAddCourse(true)}
-        >
-          <Plus size={22} />
-          <span className="text-sm font-bold">إضافة كورس جديد</span>
-        </button>
+
+        <MainButton icon={Plus} text="إضافة كورس جديد" setStateFn={setShowAddCourse} />
       </div>
 
       {/* Filter Section */}
@@ -54,25 +54,23 @@ export default function CoursesPage() {
         {/* Clear Filter Button */}
         <button
           onClick={() => setLevel("")}
-          className={`px-6 py-2.5 rounded-lg text-sm   transition-all border ${
-            level === ""
-              ? "bg-[#0066FF] text-white border-[#0066FF] shadow-md"
-              : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50"
-          }`}
+          className={`px-6 py-2.5 rounded-lg text-sm   transition-all border ${level === ""
+            ? "bg-[#0066FF] text-white border-[#0066FF] shadow-md"
+            : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50"
+            }`}
         >
           الكل
         </button>
 
         {/* Levels from Store */}
-        { levels.map((lvl) => (
+        {levels.map((lvl) => (
           <button
             key={lvl._id}
             onClick={() => setLevel(lvl.name)}
-            className={`px-6 py-2.5 rounded-lg text-sm  transition-all border whitespace-nowrap ${
-              level === lvl.name
-                ? "bg-[#0066FF] text-white border-[#0066FF] shadow-md"
-                : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50"
-            }`}
+            className={`px-6 py-2.5 rounded-lg text-sm  transition-all border whitespace-nowrap ${level === lvl.name
+              ? "bg-[#0066FF] text-white border-[#0066FF] shadow-md"
+              : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50"
+              }`}
           >
             {lvl.name}
           </button>
@@ -89,7 +87,7 @@ export default function CoursesPage() {
       ) : data?.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
           {data.map((course: any) => (
-            <CourseCard key={course._id} course={course} />
+            <CourseCard key={course._id} course={course}  />
           ))}
         </div>
       ) : (

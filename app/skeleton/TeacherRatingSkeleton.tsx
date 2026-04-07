@@ -1,6 +1,6 @@
 const TeacherRatingSkeleton = () => {
   return (
-    <div className="bg-amber-50/40 rounded-[2.5rem] p-8 border border-amber-100/50 shadow-sm flex flex-col justify-between animate-pulse">
+    <div className="bg-amber-50/40 rounded-xl p-8 border border-amber-100/50 shadow-sm flex flex-col justify-between animate-pulse">
       <div className="flex justify-between items-start">
         <div className="h-12 w-12 bg-white/80 rounded-2xl border border-amber-100" />
 

@@ -1,6 +1,6 @@
 const SubjectCardSkeleton = () => {
   return (
-    <div className="relative h-70 w-full rounded-3xl overflow-hidden bg-slate-200 animate-pulse border border-slate-100">
+    <div className="relative h-70 w-full rounded-xl overflow-hidden bg-slate-200 animate-pulse border border-slate-100">
       {/* 1. Content Container (Positioned at bottom to match your card) */}
       <div className="absolute bottom-0 inset-x-0 p-8 z-10 space-y-4">
         

@@ -5,7 +5,7 @@ const TeacherStudentsStats = () => {
 
   // <TeacherStudentsStatsSkeleton />
   return (
-    <div className="relative overflow-hidden bg-slate-900 rounded-[2.5rem] p-8 text-white shadow-2xl shadow-slate-200 group transition-all hover:-translate-y-1">
+    <div className="relative overflow-hidden bg-slate-900 rounded-[2.5rem] p-8 text-white rounded-xl shadow-slate-200 group transition-all ">
       <div className="relative z-10 flex flex-col h-full justify-between">
         <div className="flex justify-between items-start">
           <div className="h-12 w-12 bg-white/10 backdrop-blur-lg rounded-2xl flex items-center justify-center">

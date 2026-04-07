@@ -29,7 +29,7 @@ const SubStats = () => {
   }
 
   return (
-    <div className="bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-sm flex flex-col justify-between group hover:border-blue-200 transition-all">
+    <div className="bg-white rounded-xl p-8 border border-slate-100 shadow-sm flex flex-col justify-between group hover:border-blue-200 transition-all">
       <div className="flex items-center gap-4 mb-6">
         <div className="h-12 w-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform">
           <BookOpen size={24} />

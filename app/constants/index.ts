@@ -27,7 +27,7 @@ export const MENUITEMS = [
   { name: "المذكرات", icon: StickyNote, link: ROUTES.NOTES },
   { name: "قائمة الانتظار", icon: UserPlus, link: ROUTES.WAITING_LIST },
   { name: "الملف الشخصي", icon: User, link: ROUTES.PROFILE },
-  { name: "الاعدادت", icon: Settings, link: ROUTES.SETTINGS },
+  // { name: "الاعدادت", icon: Settings, link: ROUTES.SETTINGS },
 ];
 
 export const LEVELS = [

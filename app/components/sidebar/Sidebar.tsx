@@ -58,10 +58,7 @@ export const Sidebar = () => {
           </nav>
         </div>
 
-        {/* اختياري: فوتر صغير في الـ Sidebar */}
-        <div className="p-6 border-t border-slate-50">
-           <p className="text-[10px] text-slate-300 font-bold uppercase text-center">Version 3.0.1</p>
-        </div>
+       
       </aside>
     </>
   );

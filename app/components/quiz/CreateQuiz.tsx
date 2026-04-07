@@ -8,6 +8,7 @@ import { Plus, Save, Loader2, Trash2, Clock } from "lucide-react";
 import { API } from "@/app/constants";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
+import MainButton from "../common/MainButton";
 
 const CreateQuiz = () => {
   const user = useAuthStore((s) => s.user);
@@ -150,18 +151,9 @@ const CreateQuiz = () => {
               قم بتنظيم أسئلتك وتحديد الوقت المناسب لطلابك.
             </p>
           </div>
-          <button
-            onClick={handleSaveQuiz}
-            disabled={uploadMutation.isPending}
-            className="flex items-center justify-center gap-2 bg-[#5700FF] text-white px-8 py-4 rounded-xl font-black shadow-lg shadow-indigo-100 hover:bg-[#4500CC] transition-all disabled:opacity-50 active:scale-95"
-          >
-            {uploadMutation.isPending ? (
-              <Loader2 className="animate-spin" />
-            ) : (
-              <Save size={20} />
-            )}
-            حفظ ونشر الاختبار
-          </button>
+           
+
+          <MainButton isPending={uploadMutation.isPending} icon={uploadMutation.isPending ? Loader2 : Save} text="حفظ ونشر الاختبار" setStateFn={handleSaveQuiz} />
         </div>
 
         <div className="space-y-8">

@@ -1,6 +1,6 @@
 const QuizCardSkeleton = () => {
   return (
-    <div className="bg-white rounded-[2.5rem] p-6 border border-slate-100 shadow-sm animate-pulse">
+    <div className="bg-white rounded-xl p-6 border border-slate-100 shadow-sm animate-pulse">
       {/* Header Skeleton */}
       <div className="flex justify-between items-start mb-6">
         <div className="w-16 h-6 bg-slate-200 rounded-full"></div>

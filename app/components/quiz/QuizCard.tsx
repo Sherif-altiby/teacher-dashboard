@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useState } from "react";
 import { API } from "@/app/constants";
+import Link from "next/link";
 
 const QuizCard = ({ quiz }: { quiz: any }) => {
   const queryClient = useQueryClient();
@@ -33,7 +34,7 @@ const QuizCard = ({ quiz }: { quiz: any }) => {
 
  
   return (
-    <div className="bg-white rounded-[2.5rem] p-6 border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-slate-200/50 transition-all group relative">
+    <div className="bg-white rounded-xl p-6 border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-slate-200/50 transition-all group relative">
       <div className="flex justify-between items-start mb-6">
         <div className="px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-tighter bg-emerald-50 text-emerald-600 border border-emerald-100">
           نشط
@@ -90,9 +91,9 @@ const QuizCard = ({ quiz }: { quiz: any }) => {
       </div>
 
       <div className="flex items-center justify-between pt-4 border-t border-slate-50">
-        <button className="text-[#5700FF] font-black text-sm flex items-center gap-1 hover:gap-2 transition-all">
+        <Link href={`/quizzes/${quiz._id}`} className="text-[#5700FF] font-black text-sm flex items-center gap-1 hover:gap-2 transition-all">
           التفاصيل <ChevronLeft size={16} />
-        </button>
+        </Link>
       </div>
     </div>
   );

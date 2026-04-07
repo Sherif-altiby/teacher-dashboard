@@ -38,7 +38,7 @@ const TeacherRating = () => {
   if (isError || !data) return null;
 
   return (
-    <div className="bg-linear-to-br from-amber-50 to-orange-50 rounded-[2.5rem] p-8 border border-amber-100/50 shadow-sm flex flex-col justify-between group transition-all hover:shadow-md">
+    <div className="bg-linear-to-br from-amber-50 to-orange-50 rounded-xl p-8 border border-amber-100/50 shadow-sm flex flex-col justify-between group transition-all hover:shadow-md">
       <div className="flex justify-between items-start">
         <div className="h-12 w-12 bg-white rounded-2xl flex items-center justify-center text-amber-500 shadow-sm border border-amber-100 group-hover:rotate-12 transition-transform">
           <Trophy size={24} />

@@ -1,6 +1,6 @@
 const TeacherStudentsStatsSkeleton = () => {
   return (
-    <div className="relative overflow-hidden bg-slate-900 rounded-[2.5rem] p-8 animate-pulse shadow-2xl border border-slate-800">
+    <div className="relative overflow-hidden bg-slate-900 rounded-xl p-8 animate-pulse shadow-2xl border border-slate-800">
       <div className="relative z-10 flex flex-col h-full justify-between">
         
         {/* الجزء العلوي: الأيقونة والتاغ */}

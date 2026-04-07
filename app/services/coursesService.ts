@@ -85,3 +85,26 @@ export const getCourseLessons = async (id: string) => {
 };
 
 
+export const updateCourse = async ({ 
+  courseId, 
+  formData 
+}: { 
+  courseId: string; 
+  formData: FormData 
+}) => {
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL;
+
+  const response = await fetch(`${API}/teacher/update-course/${courseId}`, {
+    method: "PUT",
+    body: formData,
+    credentials: "include",
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result.message || "حدث خطأ أثناء تحديث الكورس");
+  }
+
+  return result;
+};
