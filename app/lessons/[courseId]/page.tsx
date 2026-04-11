@@ -1,8 +1,8 @@
 "use client";
 
 import { useParams, useSearchParams } from "next/navigation";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Plus, Edit3, Trash2, Play, BookOpen, Loader2, Video } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { Plus, BookOpen, Loader2, Video } from "lucide-react";
 import { useState } from "react";
 import { getCourseLessons } from "@/app/services/coursesService";
 import LessonCard from "@/app/components/course/LessonCard";
@@ -45,7 +45,7 @@ export default function LessonsPage() {
           <button 
             onClick={() => setShowAddModal(true)}
             className="bg-[#0066FF] text-white px-8 py-4 
-                             rounded-2xl font-bold flex gap-2 items-center shadow-lg 
+                             rounded-xl font-bold flex gap-2 items-center shadow-lg 
                             shadow-blue-200 hover:bg-blue-700 transition-all active:scale-95 text-sm"
           >
             <Plus size={20} /> إضافة درس جديد

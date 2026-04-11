@@ -16,8 +16,9 @@ export default function useLoginMutation() {
 
     onSuccess: (data) => {
       
-      console.log(data)
+       
       setAuth(data.data.teacher);
+      location.href = '/'
 
       setTimeout(() => {
         router.push("/");

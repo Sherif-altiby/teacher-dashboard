@@ -74,7 +74,7 @@ export default function WaitingListPage() {
               >
                 <div className="flex flex-col lg:flex-row items-stretch gap-4">
                   {/* 1. Enhanced Receipt Preview */}
-                  <div className="relative overflow-hidden rounded-[2rem] lg:w-56 h-64 lg:h-auto shrink-0">
+                  <div className="relative overflow-hidden rounded-xl lg:w-56 h-64 lg:h-auto shrink-0">
                     <Image
                       src={item.image}
                       alt="Receipt"

@@ -32,10 +32,10 @@ const CourseCard = ({ course, }: { course: Course, }) => {
 
 
   return (
-    <div className="bg-white rounded-4xl p-4 border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 group relative">
+    <div className="bg-white rounded-xl p-4 border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 group relative">
       {showUpdateCourse && <UpdateCourseModel course={course} subjectId={course.subject._id} setShowUpdateCourse={setShowUpdateCourse} showUpdateCourse={showUpdateCourse} />}
 
-      <div className="relative h-52 w-full rounded-3xl overflow-hidden mb-5">
+      <div className="relative h-52 w-full rounded-xl overflow-hidden mb-5">
         <Image
           src={course.image}
           alt={course.title}
@@ -56,15 +56,7 @@ const CourseCard = ({ course, }: { course: Course, }) => {
           {/* Dropdown Menu */}
           {showMenu && (
             <div className="absolute top-12 left-0 w-40 bg-white rounded-2xl shadow-2xl border border-slate-50 p-2 z-20 animate-in fade-in zoom-in duration-200">
-              {/* <button className="w-full flex items-center justify-end gap-2 px-3 py-2 hover:bg-slate-50 rounded-lg text-xs font-bold text-slate-700"
-                onClick={() => {
-                  console.log("Hello")
-                  setShowUpdateCourse(true)
-                }}
-              >
-                <span>تعديل</span>
-                <Edit size={14} />
-              </button> */}
+             
               <button className="w-full flex items-center justify-end gap-2 px-3 py-2 hover:bg-red-50 rounded-lg text-xs font-bold text-red-500"
                 onClick={() => {
                   mutate(course._id)

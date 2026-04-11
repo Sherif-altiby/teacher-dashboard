@@ -14,7 +14,7 @@ export const subjectCourses = async (subId: string, level?: string) => {
     const data = await res.json();
     return data.data;
   } catch (error) {
-    console.error("Error fetching courses:", error);
+
     return null;
   }
 };

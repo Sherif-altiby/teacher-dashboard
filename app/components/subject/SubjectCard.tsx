@@ -13,7 +13,7 @@ const SubjectCard = ({ image, title, subId, courseCount = 0 }: SubjectCardProps)
   return (
     <Link
       href={`/subjects/${subId}`}
-      className="group relative block h-[320px] w-full rounded-[2rem] overflow-hidden bg-slate-900 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)]"
+      className="group relative block h-[320px] w-full rounded-xl overflow-hidden bg-slate-900 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)]"
     >
       <Image
         src={image}
@@ -25,7 +25,7 @@ const SubjectCard = ({ image, title, subId, courseCount = 0 }: SubjectCardProps)
 
       <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
       
-      <div className="absolute inset-0 border-[1px] border-white/10 rounded-[2rem] pointer-events-none group-hover:border-white/20 transition-colors" />
+      <div className="absolute inset-0 border-[1px] border-white/10 rounded-xl pointer-events-none group-hover:border-white/20 transition-colors" />
 
       <div className="absolute top-5 right-5 z-10">
         <div className="flex items-center gap-2 px-3 py-1.5 bg-black/30 backdrop-blur-md rounded-full border border-white/10 text-white/90 text-xs font-bold">

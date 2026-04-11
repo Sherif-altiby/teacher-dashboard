@@ -22,7 +22,7 @@ const TeacherRating = () => {
       if (!res.ok) throw new Error("Failed to fetch data");
 
       const json = await res.json();
-      console.log(json)
+
       return json.stats; // الهيكل: { average: 4.8, total: 124 }
     }
   });

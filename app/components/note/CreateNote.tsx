@@ -212,7 +212,7 @@ const CreateNoteModal = ({ isOpen, onClose }: CreateNoteModalProps) => {
                                 onDragLeave={() => setIsDragging(false)}
                                 onDrop={onDrop}
                                 onClick={() => fileInputRef.current?.click()}
-                                className={`border-3 border-dashed rounded-[2rem] p-10 flex flex-col items-center justify-center gap-4 transition-all cursor-pointer group ${isDragging ? "border-emerald-500 bg-emerald-50 shadow-inner" : "border-slate-100 bg-slate-50/50 hover:border-emerald-300 hover:bg-white"
+                                className={`border-3 border-dashed rounded-xl p-10 flex flex-col items-center justify-center gap-4 transition-all cursor-pointer group ${isDragging ? "border-emerald-500 bg-emerald-50 shadow-inner" : "border-slate-100 bg-slate-50/50 hover:border-emerald-300 hover:bg-white"
                                     }`}
                             >
                                 <input type="file" accept=".pdf" className="hidden" ref={fileInputRef} onChange={(e) => e.target.files?.[0] && handleFile(e.target.files[0])} />

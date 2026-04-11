@@ -12,8 +12,6 @@ export async function getTeacherSubjects(teacherId: string) {
         })
 
         const data = await response.json();
-
-        console.log(data)
           
         return await data.data;
     } catch (error) {

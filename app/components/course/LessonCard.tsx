@@ -34,9 +34,9 @@ const LessonCard = ({ lesson }: { lesson: any }) => {
 
 
   return (
-    <div className="bg-white rounded-[2.5rem] overflow-hidden border border-slate-100 shadow-sm hover:shadow-md transition-all group">
+    <div className="bg-white rounded-xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-md transition-all group">
       {/* Thumbnail Section */}
-      <div className="relative aspect-video w-full overflow-hidden bg-slate-200">
+      <div className="relative aspect-video w-full overflow-hidden bg-slate-200 h-[150px]">
         <Image
           src={getYouTubeThumbnail(lesson.videoUrl)}
           alt={lesson.title}
@@ -50,8 +50,8 @@ const LessonCard = ({ lesson }: { lesson: any }) => {
       </div>
 
       {/* Content Section */}
-      <div className="p-7">
-        <h3 className="font-black text-slate-800 text-xl mb-2 line-clamp-1">
+      <div className="p-4">
+        <h3 className="font-black text-slate-800 text-lg mb-2 line-clamp-1">
           {lesson.title}
         </h3>
         <p className="text-slate-500 text-sm line-clamp-2 leading-relaxed mb-4">
@@ -60,13 +60,13 @@ const LessonCard = ({ lesson }: { lesson: any }) => {
 
         {/* Management Buttons Row */}
         <div className="grid grid-cols-2 gap-3 pt-6 border-t border-slate-50">
-          <button className="flex items-center justify-center gap-2 py-3 rounded-xl bg-blue-50 text-[#0066FF]  text-sm hover:bg-[#0066FF] hover:text-white transition-all">
+          <button className="flex items-center justify-center gap-2 py-3 rounded-lg bg-blue-50 text-[#0066FF]  text-sm hover:bg-[#0066FF] hover:text-white transition-all">
             <Edit3 size={16} />
             تعديل
           </button>
           <button
             onClick={() => mutate()}
-            className="flex items-center justify-center gap-2 py-3 rounded-xl bg-red-50 text-red-600  text-sm hover:bg-red-600 hover:text-white transition-all"
+            className="flex items-center justify-center gap-2 py-3 rounded-lg bg-red-50 text-red-600  text-sm hover:bg-red-600 hover:text-white transition-all"
          
          >
             <Trash2 size={16} />

@@ -35,7 +35,7 @@ const CreateQuiz = () => {
         body: JSON.stringify({ teacherId: user?._id }),
       });
       const result = await response.json();
-      console.log(result);
+
       if (!result.status) throw new Error("Failed to fetch");
       setSubjects(result.data);
       return result.data;

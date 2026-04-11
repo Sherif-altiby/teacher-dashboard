@@ -41,8 +41,7 @@ const NoteCard = ({ note }: { note: Note }) => {
     },
     onError: (error: any) => {
       toast.error(error.message || "حدث خطأ أثناء الحذف");
-      console.error("Error deleting PDF:", error);
-    },
+     },
   });
 
 
