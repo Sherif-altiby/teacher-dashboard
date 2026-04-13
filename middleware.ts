@@ -6,13 +6,16 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // 1. If the user is already on the login page, don't redirect (prevent infinite loop)
+  if (pathname === '/login' && token) {
+    return NextResponse.redirect(new URL('/', request.url))
+  }
+
   if (pathname === '/login') {
     return NextResponse.next()
   }
 
-  // 2. If no token exists, redirect to login
+  // 2. If no token exists, redirect to login 
   if (!token) {
-
     return NextResponse.redirect(new URL('/login', request.url))
   }
 
