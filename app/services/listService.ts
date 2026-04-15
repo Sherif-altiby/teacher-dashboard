@@ -11,7 +11,7 @@ export const getWaitingList = async () => {
 };
 
 
-export const removeItemList = async ({ listId, userId }: { listId: string; userId: string }) => {
+export const removeItemList = async ({ courseId, userId }: { courseId: string; userId: string }) => {
     try {
         const response = await fetch(`${API}/teacher/delete-list-item`, {
             method: "DELETE",
@@ -19,7 +19,7 @@ export const removeItemList = async ({ listId, userId }: { listId: string; userI
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ listId, userId }),
+            body: JSON.stringify({ courseId, userId }),
         });
 
         const data = await response.json();
