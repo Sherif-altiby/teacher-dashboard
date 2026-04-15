@@ -1,40 +1,37 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server' // Note: Use next/server for consistency
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
-  const token = request.cookies.get('refreshToken')?.value 
-  const { pathname } = request.nextUrl
+  const token = request.cookies.get("refreshToken")?.value;
+  const { pathname } = request.nextUrl;
 
-  // 1. If the user is already on the login page, don't redirect (prevent infinite loop)
-  if (pathname === '/login' && token) {
-    return NextResponse.redirect(new URL('/', request.url))
+  // تعريف المسارات المتاحة للجميع
+  const isPublicPath = pathname === "/";
+
+  // 1. إذا حاول المستخدم دخول صفحة Login وهو مسجل دخول فعلاً
+  if (pathname === "/login" && token) {
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
-  if (pathname === '/login') {
-    return NextResponse.next()
+  // 2. السماح بمرور الصفحات العامة أو صفحة تسجيل الدخول (بدون شروط)
+  if (isPublicPath || pathname === "/login" ) {
+    return NextResponse.next();
   }
 
-  // 2. If no token exists, redirect to login 
+  // 3. حماية أي مسار آخر (Private Routes) إذا لم يوجد توكن
   if (!token) {
-    return NextResponse.redirect(new URL('/login', request.url))
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
-
-  
-  return NextResponse.next()
+  // 4. السماح بالمرور في أي حالة أخرى (مستخدم مسجل دخول ويحاول دخول صفحة خاصة)
+  return NextResponse.next();
 }
 
-// 3. The Config: Run on everything EXCEPT specific folders/files
 export const config = {
   matcher: [
     /*
-     * Match all request paths except for the ones starting with:
-     * - api (route handlers) -> Optional: remove if you want to protect API too
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - public folder files (images, etc.)
+     * استثناء الملفات الثابتة والتقنية لضمان عدم حدوث Redirect لملفات الصور أو السكريبتات
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|login|images|logo.png).*)',
+    "/((?!api|_next/static|_next/image|favicon.ico|images|logo.png|sw.js).*)",
   ],
-}
+};
