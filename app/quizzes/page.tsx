@@ -10,6 +10,7 @@ import CreateQuiz from '../components/quiz/CreateQuiz';
 import QuizCard from '../components/quiz/QuizCard';
 import QuizCardSkeleton from '../skeleton/QuizCardSkeleton';
 import MainButton from '../components/common/MainButton';
+import { useRouter } from 'next/navigation';
 
 const fetchTeacherQuizzes = async () => {
   const res = await fetch(`${API}/teacher/quizzes`, {
@@ -23,12 +24,11 @@ const fetchTeacherQuizzes = async () => {
 };
 
 const QuizzesPage = () => {
+  const router = useRouter();
+
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCourse, setSelectedCourse] = useState("all");
   const [selectedLevel, setSelectedLevel] = useState("all");
-
-  const [creat, setCreat] = useState(false)
-
 
   const { data: allQuizzes = [], isLoading, isError, refetch } = useQuery({
     queryKey: ['teacherQuizzes'],
@@ -66,7 +66,7 @@ const QuizzesPage = () => {
           <p className="text-slate-500 font-bold mt-1">لديك {allQuizzes.length} اختبارات مسجلة في المنصة.</p>
         </div>
 
-        <MainButton icon={Plus} text="إنشاء اختبار جديد" setStateFn={setCreat} />
+        <div onClick={() => {router.push('quizzes/create')}} ><MainButton icon={Plus} text="إنشاء اختبار جديد"    /></div>
       </div>
 
       <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm mb-8">
@@ -131,7 +131,6 @@ const QuizzesPage = () => {
         )}
       </div>
 
-      {creat && <CreateQuiz />}
     </div>
   );
 };
