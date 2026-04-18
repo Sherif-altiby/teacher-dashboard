@@ -88,12 +88,9 @@ const CourseCard = ({ course, }: { course: Course, }) => {
           {course.subject.name}
         </p>
 
-        {/* Title as a Link */}
-        <Link href={`/courses/${course._id}`}>
           <h3 className="text-lg font-black text-slate-900 mb-3 leading-tight hover:text-[#0066FF] transition-colors cursor-pointer">
             {course.title}
           </h3>
-        </Link>
 
         {/* 3. Pricing Section */}
         <div className="flex items-center justify-start flex-row-reverse gap-3 mb-2">
