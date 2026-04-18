@@ -56,12 +56,12 @@ const ChangePassword = () => {
         
         {/* Header Section */}
         <div className="bg-slate-50/50 p-8 border-b border-slate-100 flex items-center gap-5">
-          <div className="h-14 w-14 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-200">
-            <KeyRound size={28} />
+          <div className="w-9 md:h-14 h-9 md:w-14 bg-blue-600 rounded-lg md:rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-200">
+            <KeyRound  className="size-4  md:size-6" />
           </div>
           <div>
-            <h2 className="text-2xl font-black text-slate-900">تغيير كلمة المرور</h2>
-            <p className="text-slate-400 text-sm font-medium">تأكد من اختيار كلمة مرور قوية لحماية حسابك</p>
+            <h2 className="md:text-2xl font-black text-slate-900">تغيير كلمة المرور</h2>
+            <p className="text-slate-400 text-xs md:text-sm font-medium">تأكد من اختيار كلمة مرور قوية لحماية حسابك</p>
           </div>
         </div>
 

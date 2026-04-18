@@ -96,17 +96,17 @@ const UpdatTeacherData = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-4xl mx-auto ">
       <div className="lg:col-span-9">
         <form
           onSubmit={handleSubmit}
           className="bg-white border border-slate-200 rounded-[2.5rem]  overflow-hidden"
         >
           {/* Header / Avatar */}
-          <div className="bg-slate-50/50 p-8 border-b border-slate-100 flex flex-col md:flex-row items-center gap-6">
+          <div className="bg-slate-50/50 p-3 md:p-8 border-b border-slate-100 flex flex-col md:flex-row items-center gap-6">
             {/* قسم الصورة */}
             <div className="relative group">
-              <div className="w-24 h-24 rounded-3xl overflow-hidden border-4 border-white shadow-md relative bg-slate-200">
+              <div className="w-16 h-16 md:w-24 md:h-24 rounded-xl md:rounded-3xl overflow-hidden border-4 border-white shadow-md relative bg-slate-200">
                 <Image
                   src={user?.avatar || "/default-avatar.png"}
                   alt="Profile"
@@ -149,17 +149,17 @@ const UpdatTeacherData = () => {
 
             {/* النصوص */}
             <div className="text-center md:text-right">
-              <h2 className="text-2xl font-black text-slate-900">
+              <h2 className="md:text-2xl font-black text-slate-900">
                 إعدادات الحساب
               </h2>
-              <p className="text-slate-400 text-sm font-medium">
+              <p className="text-slate-400 text-xs md:text-sm font-medium">
                 قم بتحديث معلوماتك الشخصية وصورتك العامة
               </p>
             </div>
           </div>
 
           {/* Form Fields Section */}
-          <div className="p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="p-4 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-8">
             {/* Name Field */}
             <div className="space-y-2">
               <label className="text-xs font-black text-slate-400 px-1 uppercase tracking-widest">
@@ -177,7 +177,6 @@ const UpdatTeacherData = () => {
                     setUserDetails({ ...userDetails, name: e.target.value })
                   }
                   className="w-full bg-slate-50 border-none rounded-2xl py-4 pr-12 pl-4 text-slate-700 font-bold focus:ring-2 focus:ring-blue-100 transition-all outline-none"
-                  placeholder="أدخل أسمك الكامل"
                 />
               </div>
             </div>
