@@ -20,7 +20,7 @@ export const Navbar = () => {
   }, [fetchLevels]);
 
   return (
-    <nav className="h-18  bg-white/80 backdrop-blur-md border-b border-border sticky top-0 z-50 shadow-navbar">
+    <nav className="h-18  bg-red  bg-white/80 backdrop-blur-md border-b border-border sticky top-0 z-50 shadow-navbar">
       <div className="flex items-center justify-between h-full main-container">
         <Link href={'/profile'} className="flex items-center gap-3 ps-2 group cursor-pointer">
           <div className="text-end hidden sm:block">
@@ -43,13 +43,13 @@ export const Navbar = () => {
             <div className="absolute bottom-0 inset-e-0 w-3 h-3 bg-success border-2 border-white rounded-full" />
           </div>
         </Link>
-        <div className="flex items-center gap-2 ">
+        <div className="flex items-center md:gap-2 ">
           <NavLink icon={Home} href="/" />
           <NavLink icon={Bell} href="/notifications" />
           <div className="p-2.5 rounded-xl cursor-pointer block xl:hidden text-nav-icon hover:bg-slate-100 hover:text-text-main transition-all active:scale-95"
             onClick={() => setShow(true)}
           >
-            <Menu size={22} strokeWidth={2} />
+            <Menu className="size-5 md:size-6" />
           </div>
         </div>
       </div>

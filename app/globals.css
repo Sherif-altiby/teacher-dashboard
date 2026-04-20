@@ -61,7 +61,7 @@
 }
 
 .main-container {
-  @apply !w-full mx-auto px-10;
+  @apply !w-full mx-auto px-4 md:px-10;
 }
 
 
