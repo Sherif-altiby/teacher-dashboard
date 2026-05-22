@@ -3,34 +3,38 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Edit3, Play, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
+import { useState } from "react";
+import UpdateLesson from "./UpdateLesson";
 
 const LessonCard = ({ lesson }: { lesson: any }) => {
-      const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
+
+  const [showUpdateLesson, setShowUpdateLesson] = useState(false);
 
   const getYouTubeThumbnail = (url: string) => {
     const videoId = url.split("v=")[1]?.split("&")[0] || url.split("/").pop();
     return `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
   };
 
-   const { mutate, isPending } = useMutation({
-       mutationFn: async () => {
-           const res = await fetch(`${API}/teacher/delete-lesson/${lesson._id}`, {
-               method: "DELETE",
-               credentials: "include",
-           });
-           const data = await res.json();
-           if (!res.ok) throw new Error(data.message || "حدث خطأ");
-           return data.data;
-       },
-       onSuccess: () => {
-         toast.success("تمت إضافة الدرس بنجاح");
-         // Refetch the lessons list to show the new card immediately
-         queryClient.invalidateQueries({ queryKey: ["lessons"] });
-        },
-       onError: (error: any) => {
-         toast.error(error.message || "حدث خطأ أثناء الإضافة");
-       },
-     });
+  const { mutate, isPending } = useMutation({
+    mutationFn: async () => {
+      const res = await fetch(`${API}/teacher/delete-lesson/${lesson._id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "حدث خطأ");
+      return data.data;
+    },
+    onSuccess: () => {
+      toast.success("تمت إضافة الدرس بنجاح");
+      // Refetch the lessons list to show the new card immediately
+      queryClient.invalidateQueries({ queryKey: ["lessons"] });
+    },
+    onError: (error: any) => {
+      toast.error(error.message || "حدث خطأ أثناء الإضافة");
+    },
+  });
 
 
   return (
@@ -51,29 +55,39 @@ const LessonCard = ({ lesson }: { lesson: any }) => {
 
       {/* Content Section */}
       <div className="p-4">
-        <h3 className="font-black text-slate-800 text-lg mb-2 line-clamp-1">
+        <h3 className="font-bold text-slate-800 text-sm mb-1.5 line-clamp-1">
           {lesson.title}
         </h3>
-        <p className="text-slate-500 text-sm line-clamp-2 leading-relaxed mb-4">
+        <p className="text-slate-500 text-xs line-clamp-2 leading-relaxed mb-3">
           {lesson.description}
         </p>
 
         {/* Management Buttons Row */}
-        <div className="grid grid-cols-2 gap-3 pt-6 border-t border-slate-50">
-          <button className="flex items-center justify-center gap-2 py-3 rounded-lg bg-blue-50 text-[#0066FF]  text-sm hover:bg-[#0066FF] hover:text-white transition-all">
-            <Edit3 size={16} />
+        <div className="grid grid-cols-2 gap-3 pt-4 border-t border-slate-50">
+          <button
+            onClick={() => setShowUpdateLesson(true)}
+            className="flex items-center justify-center gap-2 py-2 rounded-lg bg-blue-50 text-[#0066FF]  text-xs hover:bg-[#0066FF] hover:text-white transition-all">
+            <Edit3 size={14} />
             تعديل
           </button>
           <button
             onClick={() => mutate()}
-            className="flex items-center justify-center gap-2 py-3 rounded-lg bg-red-50 text-red-600  text-sm hover:bg-red-600 hover:text-white transition-all"
-         
-         >
-            <Trash2 size={16} />
+            className="flex items-center justify-center gap-2 py-2 rounded-lg bg-red-50 text-red-600  text-xs hover:bg-red-600 hover:text-white transition-all"
+          >
+            <Trash2 size={14} />
             {isPending ? "جاري الحذف..." : "حذف"}
           </button>
         </div>
       </div>
+
+
+      {showUpdateLesson && (
+        <UpdateLesson
+          showUpdateLesson={setShowUpdateLesson}
+          lesson={lesson}
+        />
+      )}
+
     </div>
   );
 };

@@ -22,8 +22,6 @@ export default function LessonsPage() {
   });
 
 
- 
-
   if (isLoading) return (
     <div className="h-screen flex items-center justify-center">
       <Loader2 className="animate-spin text-blue-600" size={40} />
@@ -31,24 +29,24 @@ export default function LessonsPage() {
   );
 
   return (
-    <div className="min-h-screen  p-2 md:p-10" dir="rtl">
+    <div className="min-h-screen p-4 md:p-6" dir="rtl">
 
-      {showAddModal && <AddLessonModal setShowAddModal={setShowAddModal} courseId={courseId as string} subjectId={subjectId || ""}/>}
+      {showAddModal && <AddLessonModal setShowAddModal={setShowAddModal} courseId={courseId as string} subjectId={subjectId || ""} />}
 
       <div className="max-w-6xl mx-auto">
         {/* Page Header */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-4">
+        <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
           <div className="text-center md:text-right">
-            <h1 className="text-lg xl:text-3xl font-black text-slate-900">الدروس المضافة</h1>
-            <p className="text-slate-500 mt-2 text-sm xl:text-lg">إدارة محتوى الكورس وتعديل تفاصيل الدروس</p>
+            <h1 className="text-lg md:text-xl xl:text-2xl font-bold text-slate-900">الدروس المضافة</h1>
+            <p className="text-slate-500 mt-1 text-xs md:text-sm">إدارة محتوى الكورس وتعديل تفاصيل الدروس</p>
           </div>
-          <button 
+          <button
             onClick={() => setShowAddModal(true)}
-            className="bg-[#0066FF] text-white px-8 py-4 
-                             rounded-xl font-bold flex gap-2 items-center shadow-lg 
-                            shadow-blue-200 hover:bg-blue-700 transition-all active:scale-95 text-sm"
+            className="bg-[#0066FF] text-white px-5 py-2.5 
+                             rounded-xl font-bold flex gap-1.5 items-center shadow-lg 
+                            shadow-blue-200 hover:bg-blue-700 transition-all active:scale-95 text-xs"
           >
-            <Plus size={20} /> إضافة درس جديد
+            <Plus size={16} /> إضافة درس جديد
           </button>
         </div>
 
@@ -56,15 +54,15 @@ export default function LessonsPage() {
         {lessons && lessons.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {lessons.map((lesson: any) => (
-             <LessonCard lesson={lesson} key={lesson._id} />
+              <LessonCard lesson={lesson} key={lesson._id} />
             ))}
           </div>
         ) : (
           /* Empty State */
-          <div className="bg-white rounded-[3rem] p-24 text-center border-2 border-dashed border-slate-200">
-            <BookOpen size={64} className="mx-auto text-slate-200 mb-6" />
-            <h2 className="text-2xl font-bold text-slate-400">لا توجد دروس حالياً</h2>
-            <p className="text-slate-400 mt-2">قم بالضغط على "إضافة درس جديد" للبدء</p>
+          <div className="bg-white rounded-3xl p-12 text-center border-2 border-dashed border-slate-200">
+            <BookOpen size={48} className="mx-auto text-slate-200 mb-4" />
+            <h2 className="text-base font-bold text-slate-400">لا توجد دروس حالياً</h2>
+            <p className="text-xs text-slate-400 mt-1.5">قم بالضغط على "إضافة درس جديد" للبدء</p>
           </div>
         )}
       </div>

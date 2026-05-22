@@ -55,15 +55,30 @@ const CourseCard = ({ course, }: { course: Course, }) => {
 
           {/* Dropdown Menu */}
           {showMenu && (
-            <div className="absolute top-12 left-0 w-40 bg-white rounded-2xl shadow-2xl border border-slate-50 p-2 z-20 animate-in fade-in zoom-in duration-200">
-             
-              <button className="w-full flex items-center justify-end gap-2 px-3 py-2 hover:bg-red-50 rounded-lg text-xs font-bold text-red-500"
+            <div className="absolute top-12 left-0 w-40 bg-white rounded-2xl shadow-2xl border border-slate-100/80 p-1.5 z-20 animate-in fade-in zoom-in-95 slide-in-from-top-2 duration-200" dir="rtl">
+              <button 
+                className="w-full flex items-center justify-end gap-2 px-3 py-2 hover:bg-blue-50/50 rounded-xl text-xs font-bold text-slate-700 hover:text-[#0066FF] transition-colors"
                 onClick={() => {
-                  mutate(course._id)
+                  setShowUpdateCourse(true);
+                  setShowMenu(false);
                 }}
               >
-                <span> {isPending ? "جاري الحذف ...." : "حذف"} </span>
-                <Trash2 size={14} />
+                <span>تعديل</span>
+                <Edit size={14} className="opacity-80" />
+              </button>
+
+              <div className="h-[1px] bg-slate-100 my-1 mx-1" />
+
+              <button 
+                className="w-full flex items-center justify-end gap-2 px-3 py-2 hover:bg-red-50/50 rounded-xl text-xs font-bold text-red-500 hover:text-red-600 transition-colors"
+                onClick={() => {
+                  mutate(course._id);
+                  setShowMenu(false);
+                }}
+                disabled={isPending}
+              >
+                <span>{isPending ? "جاري الحذف..." : "حذف"}</span>
+                <Trash2 size={14} className="opacity-80" />
               </button>
             </div>
           )}
@@ -88,9 +103,9 @@ const CourseCard = ({ course, }: { course: Course, }) => {
           {course.subject.name}
         </p>
 
-          <h3 className="text-lg font-black text-slate-900 mb-3 leading-tight hover:text-[#0066FF] transition-colors cursor-pointer">
-            {course.title}
-          </h3>
+        <h3 className="text-lg font-black text-slate-900 mb-3 leading-tight hover:text-[#0066FF] transition-colors cursor-pointer">
+          {course.title}
+        </h3>
 
         {/* 3. Pricing Section */}
         <div className="flex items-center justify-start flex-row-reverse gap-3 mb-2">

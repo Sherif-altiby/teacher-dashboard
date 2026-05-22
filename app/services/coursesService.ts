@@ -85,14 +85,16 @@ export const getCourseLessons = async (id: string) => {
 };
 
 
-export const updateCourse = async ({ 
-  courseId, 
-  formData 
-}: { 
-  courseId: string; 
-  formData: FormData 
+export const updateCourse = async ({
+  courseId,
+  formData
+}: {
+  courseId: string;
+  formData: FormData
 }) => {
-  const API_URL = process.env.NEXT_PUBLIC_SERVER_URL;
+
+  console.log("Form Data", formData);
+
 
   const response = await fetch(`${API}/teacher/update-course/${courseId}`, {
     method: "PUT",
