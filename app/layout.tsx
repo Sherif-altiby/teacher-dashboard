@@ -27,13 +27,13 @@ export default function RootLayout({
     <html lang="ar" dir="rtl" className={ibmPlexArabic.variable}>
       <body className="">
         <QueryProvider>
-            <Navbar />
-            <div className="bg-[#eee] main-container py-6 px-0! sm:px-4! flex gap-5 h-[calc(100vh-72px)] ">
-                <Sidebar />
-                <div className="bg-glass-bg bg-white backdrop-blur-(--sidebar-blur) rounded-3xl shadow-lg w-full h-full p-4 overflow-y-auto custom-scrollbar" >
-                    {children}
-                </div>
+          <Navbar />
+          <div className="bg-[#eee] main-container py-6 px-0! sm:px-4! flex gap-5 h-[calc(100vh-72px)] ">
+            <Sidebar />
+            <div className="bg-glass-bg bg-white backdrop-blur-(--sidebar-blur) rounded-3xl shadow-lg w-full h-full md:p-4 overflow-y-auto custom-scrollbar" >
+              {children}
             </div>
+          </div>
         </QueryProvider>
         <Toaster position="top-center" dir="rtl" richColors closeButton />
       </body>

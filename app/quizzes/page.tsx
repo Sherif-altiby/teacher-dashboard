@@ -3,14 +3,14 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import {
-  Plus, Search, BookOpen, Layers, ChevronDown, X,
+  Plus, Search, BookOpen, Layers, X,
 } from 'lucide-react';
 import { API } from '../constants';
-import CreateQuiz from '../components/quiz/CreateQuiz';
 import QuizCard from '../components/quiz/QuizCard';
 import QuizCardSkeleton from '../skeleton/QuizCardSkeleton';
 import MainButton from '../components/common/MainButton';
 import { useRouter } from 'next/navigation';
+import CustomSelect from '../components/common/CustomSelect';
 
 const fetchTeacherQuizzes = async () => {
   const res = await fetch(`${API}/teacher/quizzes`, {
@@ -58,15 +58,15 @@ const QuizzesPage = () => {
 
 
   return (
-    <div className="min-h-screen     p-4 lg:p-8 ml-0 xl:ml-4" dir="rtl">
+    <div className="min-h-screen " dir="rtl">
 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">إدارة الاختبارات</h1>
+          <h1 className="text-xl md:text-2xl font-semibold text-slate-900 tracking-tight">إدارة الاختبارات</h1>
           <p className="text-slate-500 font-bold mt-1">لديك {allQuizzes.length} اختبارات مسجلة في المنصة.</p>
         </div>
 
-        <div onClick={() => {router.push('quizzes/create')}} ><MainButton icon={Plus} text="إنشاء اختبار جديد"    /></div>
+        <div onClick={() => { router.push('quizzes/create') }} ><MainButton icon={Plus} text="إنشاء اختبار جديد" /></div>
       </div>
 
       <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm mb-8">
@@ -80,35 +80,34 @@ const QuizzesPage = () => {
             />
           </div>
 
-          <div className="relative">
-            <BookOpen className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-            <select
-              value={selectedCourse} onChange={(e) => setSelectedCourse(e.target.value)}
-              className="w-full pr-11 pl-4 py-3 bg-slate-50 border-none rounded-xl appearance-none outline-none cursor-pointer text-sm font-black"
-            >
-              <option value="all">كل الكورسات</option>
-              {dynamicCourses.map((c: any) => <option key={c} value={c}>{c}</option>)}
-            </select>
-            <ChevronDown className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={16} />
-          </div>
+          <CustomSelect
+            value={selectedCourse}
+            onChange={setSelectedCourse}
+            options={[
+              { value: "all", label: "كل الكورسات" },
+              ...dynamicCourses.map((c: any) => ({ value: c, label: c })),
+            ]}
+            icon={BookOpen}
+            placeholder="كل الكورسات"
+          />
 
-          <div className="relative">
-            <Layers className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-            <select
-              value={selectedLevel} onChange={(e) => setSelectedLevel(e.target.value)}
-              className="w-full pr-11 pl-4 py-3 bg-slate-50 border-none rounded-xl appearance-none outline-none cursor-pointer text-sm font-black"
-            >
-              <option value="all">كل المستويات</option>
-              {dynamicLevels.map((l: any) => <option key={l} value={l}>{l}</option>)}
-            </select>
-            <ChevronDown className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={16} />
-          </div>
+          <CustomSelect
+            value={selectedLevel}
+            onChange={setSelectedLevel}
+            options={[
+              { value: "all", label: "كل المستويات" },
+              ...dynamicLevels.map((l: any) => ({ value: l, label: l })),
+            ]}
+            icon={Layers}
+            placeholder="كل المستويات"
+          />
 
           <button
             onClick={() => { setSearchTerm(""); setSelectedCourse("all"); setSelectedLevel("all"); }}
-            className="flex items-center justify-center gap-2 text-slate-400 hover:text-red-500 font-black transition-all"
+            className="group w-full flex items-center justify-center gap-2 py-3 px-4 bg-slate-50/50 hover:bg-red-50/80 text-slate-500 hover:text-red-600 border border-slate-100/80 hover:border-red-100 rounded-xl font-bold text-sm cursor-pointer transition-all duration-250 active:scale-[0.98] shadow-xs"
           >
-            <X size={18} /> مسح الفلاتر
+            <X size={16} className="transition-transform duration-250 group-hover:rotate-90 group-hover:scale-110" />
+            <span>مسح الفلاتر</span>
           </button>
         </div>
       </div>

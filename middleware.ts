@@ -5,8 +5,7 @@ export function middleware(request: NextRequest) {
   const token = request.cookies.get("refreshToken")?.value;
   const { pathname } = request.nextUrl;
 
-  // تعريف المسارات المتاحة للجميع
-  const isPublicPath = pathname === "/";
+
 
   // 1. إذا حاول المستخدم دخول صفحة Login وهو مسجل دخول فعلاً
   if (pathname === "/login" && token) {
@@ -14,7 +13,7 @@ export function middleware(request: NextRequest) {
   }
 
   // 2. السماح بمرور الصفحات العامة أو صفحة تسجيل الدخول (بدون شروط)
-  if (isPublicPath || pathname === "/login" ) {
+  if (pathname === "/login") {
     return NextResponse.next();
   }
 
