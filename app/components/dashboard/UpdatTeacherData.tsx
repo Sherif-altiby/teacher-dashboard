@@ -73,7 +73,7 @@ const UpdatTeacherData = () => {
         toast.success("تم تحديث الصورة الشخصية بنجاح");
         console.log(res.data.avatar)
 
-        const newUser   = {...user, avatar: res.data.avatar}  as User
+        const newUser = { ...user, avatar: res.data.avatar } as User
         setAuth(newUser)
 
       } else {
@@ -115,12 +115,7 @@ const UpdatTeacherData = () => {
                   height={100}
                 />
 
-                {/* أنيميشن التحميل يظهر فوق الصورة */}
-                {isPending && (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Loader2 className="text-blue-600 animate-spin" size={24} />
-                  </div>
-                )}
+
               </div>
 
               {/* حقل اختيار الملف المخفي */}
@@ -139,7 +134,7 @@ const UpdatTeacherData = () => {
                 onClick={() => fileInputRef.current?.click()}
                 className="absolute -bottom-2 -left-2 p-2 bg-white rounded-xl shadow-lg border border-slate-100 text-blue-600 hover:scale-110 active:scale-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isPending ? (
+                {isAvatarPending ? (
                   <Loader2 size={16} className="animate-spin" />
                 ) : (
                   <Camera size={16} />
@@ -149,10 +144,10 @@ const UpdatTeacherData = () => {
 
             {/* النصوص */}
             <div className="text-center md:text-right">
-              <h2 className="md:text-2xl font-black text-slate-900">
+              <h2 className="md:text-lg text-base font-black text-slate-900">
                 إعدادات الحساب
               </h2>
-              <p className="text-slate-400 text-xs md:text-sm font-medium">
+              <p className="text-slate-400 text-[10px] md:text-xs font-medium">
                 قم بتحديث معلوماتك الشخصية وصورتك العامة
               </p>
             </div>
@@ -162,7 +157,7 @@ const UpdatTeacherData = () => {
           <div className="p-4 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-8">
             {/* Name Field */}
             <div className="space-y-2">
-              <label className="text-xs font-black text-slate-400 px-1 uppercase tracking-widest">
+              <label className="text-[10px] font-black text-slate-400 px-1 uppercase tracking-widest">
                 الأسم الكامل
               </label>
               <div className="relative">
@@ -176,14 +171,14 @@ const UpdatTeacherData = () => {
                   onChange={(e) =>
                     setUserDetails({ ...userDetails, name: e.target.value })
                   }
-                  className="w-full bg-slate-50 border-none rounded-2xl py-4 pr-12 pl-4 text-slate-700 font-bold focus:ring-2 focus:ring-blue-100 transition-all outline-none"
+                  className="w-full bg-slate-50 border-none rounded-2xl py-3.5 pr-12 pl-4 text-slate-700 text-sm font-bold focus:ring-2 focus:ring-blue-100 transition-all outline-none"
                 />
               </div>
             </div>
 
             {/* Email Field */}
             <div className="space-y-2">
-              <label className="text-xs font-black text-slate-400 px-1 uppercase tracking-widest">
+              <label className="text-[10px] font-black text-slate-400 px-1 uppercase tracking-widest">
                 البريد الإلكتروني
               </label>
               <div className="relative">
@@ -197,14 +192,14 @@ const UpdatTeacherData = () => {
                   onChange={(e) =>
                     setUserDetails({ ...userDetails, email: e.target.value })
                   }
-                  className="w-full bg-slate-50 border-none rounded-2xl py-4 pr-12 pl-4 text-slate-700 font-bold focus:ring-2 focus:ring-blue-100 transition-all outline-none"
+                  className="w-full bg-slate-50 border-none rounded-2xl py-3.5 pr-12 pl-4 text-slate-700 text-sm font-bold focus:ring-2 focus:ring-blue-100 transition-all outline-none"
                 />
               </div>
             </div>
 
             {/* Phone Field */}
             <div className="space-y-2">
-              <label className="text-xs font-black text-slate-400 px-1 uppercase tracking-widest">
+              <label className="text-[10px] font-black text-slate-400 px-1 uppercase tracking-widest">
                 رقم الهاتف
               </label>
               <div className="relative">
@@ -218,7 +213,7 @@ const UpdatTeacherData = () => {
                   onChange={(e) =>
                     setUserDetails({ ...userDetails, phone: e.target.value })
                   }
-                  className="w-full bg-slate-50 border-none rounded-2xl py-4 pr-12 pl-4 text-slate-700 font-bold focus:ring-2 focus:ring-blue-100 transition-all outline-none text-left"
+                  className="w-full bg-slate-50 border-none rounded-2xl py-3.5 pr-12 pl-4 text-slate-700 text-sm font-bold focus:ring-2 focus:ring-blue-100 transition-all outline-none text-left"
                   dir="ltr"
                 />
               </div>
@@ -227,10 +222,10 @@ const UpdatTeacherData = () => {
             {/* About Field */}
             <div className="md:col-span-2 space-y-2">
               <div className="flex justify-between items-end px-1">
-                <label className="text-xs font-black text-slate-400 uppercase tracking-widest">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
                   نبذة عنك
                 </label>
-                <span className="text-[10px] text-slate-300 font-bold">
+                <span className="text-[9px] text-slate-300 font-bold">
                   {userDetails.about?.length || 0} / 200
                 </span>
               </div>
@@ -245,7 +240,7 @@ const UpdatTeacherData = () => {
                   onChange={(e) =>
                     setUserDetails({ ...userDetails, about: e.target.value })
                   }
-                  className="w-full bg-slate-50 border-none rounded-2xl py-4 pr-12 pl-4 text-slate-700 font-bold focus:ring-2 focus:ring-blue-100 transition-all outline-none resize-none"
+                  className="w-full bg-slate-50 border-none rounded-2xl py-3.5 pr-12 pl-4 text-slate-700 text-sm font-bold focus:ring-2 focus:ring-blue-100 transition-all outline-none resize-none"
                   placeholder="اكتب نبذة مختصرة عن أسلوبك في التدريس..."
                 />
               </div>
@@ -257,12 +252,12 @@ const UpdatTeacherData = () => {
             <button
               type="submit"
               disabled={isPending}
-              className="flex items-center gap-2 px-12 py-4 bg-slate-900 text-white rounded-2xl font-black shadow-lg shadow-slate-200 hover:bg-blue-600 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center gap-2 px-8 py-3 bg-slate-900 text-white rounded-2xl text-sm font-black shadow-lg shadow-slate-200 hover:bg-blue-600 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isPending ? (
-                <Loader2 className="animate-spin" size={18} />
+                <Loader2 className="animate-spin" size={16} />
               ) : (
-                <Save size={18} />
+                <Save size={16} />
               )}
               {isPending ? "جاري الحفظ..." : "حفظ التغييرات"}
             </button>

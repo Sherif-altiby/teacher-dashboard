@@ -58,7 +58,7 @@ const QuizzesPage = () => {
 
 
   return (
-    <div className="min-h-screen " dir="rtl">
+    <div className="min-h-screen p-2">
 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>

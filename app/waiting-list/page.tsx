@@ -42,7 +42,7 @@ export default function WaitingListPage() {
       <div className="h-screen flex items-center justify-center bg-slate-50">
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="animate-spin text-[#0066FF]" size={48} />
-          <p className="text-slate-500 font-bold animate-pulse">
+          <p className="text-slate-500 text-sm font-bold animate-pulse">
             جاري تحميل الطلبات...
           </p>
         </div>
@@ -55,10 +55,10 @@ export default function WaitingListPage() {
         {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
           <div className="space-y-2">
-            <h1 className="text-4xl font-black text-slate-900 tracking-tight">
+            <h1 className="text-2xl font-black text-slate-900 tracking-tight">
               طلبات الإنضمام
             </h1>
-            <p className="text-slate-500 font-medium">
+            <p className="text-slate-500 text-sm font-medium">
               لديك {list?.length || 0} طلبات بانتظار المراجعة حالياً
             </p>
           </div>
@@ -86,7 +86,7 @@ export default function WaitingListPage() {
                     <a
                       href={item.image}
                       target="_blank"
-                      className="absolute bottom-4 right-4 left-4 bg-white/20 backdrop-blur-md border border-white/30 text-white py-2.5 rounded-xl flex items-center justify-center gap-2 text-xs font-bold hover:bg-white hover:text-black transition-all"
+                      className="absolute bottom-4 right-4 left-4 bg-white/20 backdrop-blur-md border border-white/30 text-white py-2.5 rounded-xl flex items-center justify-center gap-2 text-[11px] font-bold hover:bg-white hover:text-black transition-all"
                     >
                       <ExternalLink size={14} /> تكبير الإيصال
                     </a>
@@ -102,17 +102,17 @@ export default function WaitingListPage() {
                             <User size={24} />
                           </div>
                           <div>
-                            <h3 className="text-xl font-black text-slate-800">
+                            <h3 className="text-base font-black text-slate-800">
                               {item.user.name}
                             </h3>
-                            <div className="flex items-center gap-2 text-slate-400 text-sm mt-0.5">
+                            <div className="flex items-center gap-2 text-slate-400 text-xs mt-0.5">
                               <Mail size={14} />
                               {item.user.email}
                             </div>
                           </div>
                         </div>
                         <div className="flex gap-2">
-                          <span className="flex items-center gap-1.5 bg-slate-100 text-slate-600 px-3 py-1.5 rounded-lg text-xs font-bold">
+                          <span className="flex items-center gap-1.5 bg-slate-100 text-slate-600 px-3 py-1.5 rounded-lg text-[11px] font-bold">
                             <GraduationCap size={14} />
                             {item.user.level}
                           </span>
@@ -133,10 +133,10 @@ export default function WaitingListPage() {
                             height={50}
                           />
                           <div>
-                            <h4 className="font-black text-slate-800 text-lg leading-tight">
+                            <h4 className="font-black text-slate-800 text-sm leading-tight">
                               {item?.course?.title}
                             </h4>
-                            <div className="flex items-center gap-1.5 text-slate-400 text-xs mt-1">
+                            <div className="flex items-center gap-1.5 text-slate-400 text-[11px] mt-1">
                               <Calendar size={12} />
                               {new Date(item.createdAt).toLocaleDateString(
                                 "ar-EG",
@@ -150,14 +150,14 @@ export default function WaitingListPage() {
 
                     {/* 3. Smarter Actions Row */}
                     <div className="mt-8 flex items-center justify-end gap-4 border-t border-slate-50 pt-6">
-                      <button className="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-10 py-3.5 rounded-2xl font-black shadow-lg shadow-emerald-200 hover:shadow-emerald-300 hover:-translate-y-0.5 active:translate-y-0 transition-all"
+                      <button className="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-8 py-3 rounded-2xl text-sm font-black shadow-lg shadow-emerald-200 hover:shadow-emerald-300 hover:-translate-y-0.5 active:translate-y-0 transition-all"
                          onClick={() => {
                             let courseId = item.course._id;
                             let userId = item.user._id
                             mutate({courseId, userId})
                          }}
                       >
-                        <Check size={20} />
+                        <Check size={18} />
                         تفعيل الاشتراك الآن
                       </button>
                     </div>
@@ -171,10 +171,10 @@ export default function WaitingListPage() {
               <div className="h-24 w-24 bg-slate-50 rounded-full flex items-center justify-center mb-6">
                 <ImageIcon size={40} className="text-slate-200" />
               </div>
-              <h2 className="text-2xl font-black text-slate-800">
+              <h2 className="text-lg font-black text-slate-800">
                 كل شيء هادئ هنا
               </h2>
-              <p className="text-slate-400 font-medium mt-2">
+              <p className="text-slate-400 text-sm font-medium mt-2">
                 لا توجد طلبات إنضمام جديدة في الوقت الحالي
               </p>
             </div>

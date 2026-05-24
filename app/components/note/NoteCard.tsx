@@ -1,12 +1,7 @@
 "use client";
 
-import {
-  FileText,
-  Calendar,
-  ExternalLink,
-  Trash2,
-  Edit3
-} from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { FileText, Calendar, ExternalLink, MoreVertical, Edit3, Trash2 } from 'lucide-react';
 import { Note } from '@/app/types';
 import Link from 'next/link';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -15,7 +10,21 @@ import { toast } from 'sonner';
 
 
 const NoteCard = ({ note }: { note: Note }) => {
+  const [showOptions, setShowOptions] = useState(false);
   const queryClient = useQueryClient();
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (showOptions && menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setShowOptions(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showOptions]);
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (id: string) => {
@@ -41,12 +50,12 @@ const NoteCard = ({ note }: { note: Note }) => {
     },
     onError: (error: any) => {
       toast.error(error.message || "حدث خطأ أثناء الحذف");
-     },
+    },
   });
 
 
   return (
-    <div className="bg-white rounded-xl p-6 border border-slate-100 shadow-sm hover:shadow-xl hover:border-emerald-100 transition-all duration-300 group relative overflow-hidden flex flex-col h-full">
+    <div className="bg-white rounded-xl p-6 border border-slate-100 shadow-sm hover:shadow-xl hover:border-emerald-100 transition-all duration-300 group relative  flex flex-col h-full">
 
       <div className="relative z-10 flex flex-col h-full">
 
@@ -55,12 +64,22 @@ const NoteCard = ({ note }: { note: Note }) => {
             <FileText size={28} />
           </div>
 
-          <div className="flex gap-1">
-            <button className="p-2.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all" title="حذف"
-              onClick={() => { mutate(note._id) }}
-            >
-              {isPending ? "جاري الحذف ..." : <Trash2 size={18} />}
+          <div className="relative" ref={menuRef}>
+            <button className="p-2.5 text-slate-400 hover:text-slate-600 rounded-xl transition-all" title="خيارات" onClick={(e) => { e.stopPropagation(); setShowOptions(!showOptions); }}>
+              <MoreVertical size={18} />
             </button>
+            {showOptions && (
+              <div className="absolute right-0 w-32 bg-white border border-slate-100 rounded-xl shadow-lg z-20">
+                <button className="flex items-center gap-2 px-4 py-2 text-slate-600 hover:bg-slate-50 w-full" onClick={() => console.log('Edit clicked')}>
+                  <Edit3 size={12} className="text-slate-400" />
+                  تعديل
+                </button>
+                <button className="flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 w-full" onClick={() => mutate(note._id)} disabled={isPending}>
+                  {isPending ? "جاري الحذف ..." : <Trash2 size={12} className="text-red-500" />}
+                  حذف
+                </button>
+              </div>
+            )}
           </div>
         </div>
 

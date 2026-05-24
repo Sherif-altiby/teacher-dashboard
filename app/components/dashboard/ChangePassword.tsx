@@ -60,8 +60,8 @@ const ChangePassword = () => {
             <KeyRound  className="size-4  md:size-6" />
           </div>
           <div>
-            <h2 className="md:text-2xl font-black text-slate-900">تغيير كلمة المرور</h2>
-            <p className="text-slate-400 text-xs md:text-sm font-medium">تأكد من اختيار كلمة مرور قوية لحماية حسابك</p>
+            <h2 className="md:text-lg text-base font-black text-slate-900">تغيير كلمة المرور</h2>
+            <p className="text-slate-400 text-[10px] md:text-xs font-medium">تأكد من اختيار كلمة مرور قوية لحماية حسابك</p>
           </div>
         </div>
 
@@ -69,7 +69,7 @@ const ChangePassword = () => {
           
           {/* New Password Field */}
           <div className="space-y-2">
-            <label className="text-xs font-black text-slate-400 px-1 uppercase tracking-widest">
+            <label className="text-[10px] font-black text-slate-400 px-1 uppercase tracking-widest">
               كلمة المرور الجديدة
             </label>
             <div className="relative">
@@ -78,7 +78,7 @@ const ChangePassword = () => {
                 type={showPassword ? "text" : "password"}
                 value={passwords.password}
                 onChange={(e) => setPasswords({ ...passwords, password: e.target.value })}
-                className="w-full bg-slate-50 border-none rounded-2xl py-4 pr-12 pl-12 text-slate-700 font-bold focus:ring-2 focus:ring-blue-100 transition-all outline-none"
+                className="w-full bg-slate-50 border-none rounded-2xl py-3.5 pr-12 pl-12 text-slate-700 text-sm font-bold focus:ring-2 focus:ring-blue-100 transition-all outline-none"
                 placeholder="••••••••"
                 required
               />
@@ -94,7 +94,7 @@ const ChangePassword = () => {
 
           {/* Confirm Password Field */}
           <div className="space-y-2">
-            <label className="text-xs font-black text-slate-400 px-1 uppercase tracking-widest">
+            <label className="text-[10px] font-black text-slate-400 px-1 uppercase tracking-widest">
               تأكيد كلمة المرور
             </label>
             <div className="relative">
@@ -103,7 +103,7 @@ const ChangePassword = () => {
                 type={showPassword ? "text" : "password"}
                 value={passwords.confirmPassword}
                 onChange={(e) => setPasswords({ ...passwords, confirmPassword: e.target.value })}
-                className="w-full bg-slate-50 border-none rounded-2xl py-4 pr-12 pl-4 text-slate-700 font-bold focus:ring-2 focus:ring-blue-100 transition-all outline-none"
+                className="w-full bg-slate-50 border-none rounded-2xl py-3.5 pr-12 pl-4 text-slate-700 text-sm font-bold focus:ring-2 focus:ring-blue-100 transition-all outline-none"
                 placeholder="••••••••"
                 required
               />
@@ -115,7 +115,7 @@ const ChangePassword = () => {
             <div className="text-amber-600 mt-0.5">
               <ShieldCheck size={16} />
             </div>
-            <p className="text-xs text-amber-700 leading-relaxed font-medium">
+            <p className="text-[11px] text-amber-700 leading-relaxed font-medium">
               نصيحة: استخدم مزيجاً من الأحرف الكبيرة والصغيرة والأرقام والرموز لإنشاء كلمة مرور يصعب تخمينها.
             </p>
           </div>
@@ -125,11 +125,11 @@ const ChangePassword = () => {
             <button
               type="submit"
               disabled={isPending}
-              className="w-full flex items-center justify-center gap-2 py-4 bg-slate-900 text-white rounded-2xl font-black shadow-lg shadow-slate-200 hover:bg-blue-600 transition-all active:scale-[0.98] disabled:opacity-50"
+              className="w-full flex items-center justify-center gap-2 py-3 bg-slate-900 text-white rounded-2xl text-sm font-black shadow-lg shadow-slate-200 hover:bg-blue-600 transition-all active:scale-[0.98] disabled:opacity-50"
             >
               {isPending ? (
                 <>
-                  <Loader2 className="animate-spin" size={20} />
+                  <Loader2 className="animate-spin" size={16} />
                   جاري التحديث...
                 </>
               ) : (

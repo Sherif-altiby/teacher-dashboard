@@ -36,9 +36,7 @@ const QuizCard = ({ quiz }: { quiz: any }) => {
   return (
     <div className="bg-white rounded-xl p-6 border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-slate-200/50 transition-all group relative">
       <div className="flex justify-between items-start mb-6">
-        <div className="px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-tighter bg-emerald-50 text-emerald-600 border border-emerald-100">
-          نشط
-        </div>
+
 
         <div className="relative z-20">
           <button
@@ -54,7 +52,7 @@ const QuizCard = ({ quiz }: { quiz: any }) => {
               {/* تعديل الاختبار */}
               <Link
                 href={`/quizzes/edit/${quiz._id}`}
-                className="flex items-center gap-2.5 px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-[#5700FF] text-xs font-bold transition-all cursor-pointer border-b border-slate-50/60"
+                className="flex items-center gap-2.5 px-4 py-3 text-slate-600 hover:bg-slate-50 hover:text-[#5700FF] text-[11px] font-bold transition-all cursor-pointer border-b border-slate-50/60"
                 onClick={() => setShowOptions(false)}
               >
                 <Edit size={14} className="text-slate-400" />
@@ -65,7 +63,7 @@ const QuizCard = ({ quiz }: { quiz: any }) => {
               <button
                 onClick={() => deleteQuiz(quiz._id)}
                 disabled={isPending}
-                className="w-full flex items-center gap-2.5 px-4 py-3 text-red-500 hover:bg-red-50 hover:text-red-600 text-xs font-bold transition-all cursor-pointer disabled:opacity-50 disabled:pointer-events-none text-right"
+                className="w-full flex items-center gap-2.5 px-4 py-3 text-red-500 hover:bg-red-50 hover:text-red-600 text-[11px] font-bold transition-all cursor-pointer disabled:opacity-50 disabled:pointer-events-none text-right"
               >
                 {isPending ? (
                   <Loader2 size={14} className="animate-spin" />
@@ -84,15 +82,15 @@ const QuizCard = ({ quiz }: { quiz: any }) => {
         <div className="fixed inset-0 z-10 cursor-default" onClick={() => setShowOptions(false)} />
       )}
 
-      <h3 className="text-xl font-black text-slate-900 mb-2 group-hover:text-[#5700FF] transition-colors line-clamp-1">
+      <h3 className="text-base font-black text-slate-900 mb-2 group-hover:text-[#5700FF] transition-colors line-clamp-1">
         {quiz.title}
       </h3>
 
       <div className="flex flex-wrap gap-2 mb-6">
-        <span className="text-slate-400 text-xs font-bold bg-slate-50 px-2 py-1 rounded-lg">
+        <span className="text-slate-400 text-[11px] font-bold bg-slate-50 px-2 py-1 rounded-lg">
           {quiz.course?.title}
         </span>
-        <span className="text-slate-400 text-xs font-bold bg-slate-50 px-2 py-1 rounded-lg">
+        <span className="text-slate-400 text-[11px] font-bold bg-slate-50 px-2 py-1 rounded-lg">
           {quiz.level}
         </span>
       </div>
@@ -100,19 +98,19 @@ const QuizCard = ({ quiz }: { quiz: any }) => {
       <div className="grid grid-cols-2 gap-3 mb-6">
         <div className="flex items-center gap-2 bg-slate-50 p-3 rounded-2xl">
           <HelpCircle size={16} className="text-blue-500" />
-          <span className="text-xs font-black text-slate-700">
+          <span className="text-[11px] font-black text-slate-700">
             {quiz.questions?.length || 0} أسئلة
           </span>
         </div>
         <div className="flex items-center gap-2 bg-slate-50 p-3 rounded-2xl">
           <Users size={16} className="text-purple-500" />
-          <span className="text-xs font-black text-slate-700">0 طالب</span>
+          <span className="text-[11px] font-black text-slate-700">0 طالب</span>
         </div>
       </div>
 
       <div className="flex items-center justify-between pt-4 border-t border-slate-50">
-        <Link href={`/quizzes/${quiz._id}`} className="text-[#5700FF] font-black text-sm flex items-center gap-1 hover:gap-2 transition-all">
-          التفاصيل <ChevronLeft size={16} />
+        <Link href={`/quizzes/${quiz._id}`} className="text-[#5700FF] font-black text-xs flex items-center gap-1 hover:gap-2 transition-all">
+          التفاصيل <ChevronLeft size={14} />
         </Link>
       </div>
     </div>
