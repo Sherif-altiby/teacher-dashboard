@@ -7,10 +7,12 @@ import Link from 'next/link';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { API } from '@/app/constants';
 import { toast } from 'sonner';
+import UpdateNoteModal from './UpdateNote';
 
 
 const NoteCard = ({ note }: { note: Note }) => {
   const [showOptions, setShowOptions] = useState(false);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const queryClient = useQueryClient();
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -70,7 +72,7 @@ const NoteCard = ({ note }: { note: Note }) => {
             </button>
             {showOptions && (
               <div className="absolute right-0 w-32 bg-white border border-slate-100 rounded-xl shadow-lg z-20">
-                <button className="flex items-center gap-2 px-4 py-2 text-slate-600 hover:bg-slate-50 w-full" onClick={() => console.log('Edit clicked')}>
+                <button className="flex items-center gap-2 px-4 py-2 text-slate-600 hover:bg-slate-50 w-full" onClick={() => setIsUpdateModalOpen(true)}>
                   <Edit3 size={12} className="text-slate-400" />
                   تعديل
                 </button>
@@ -115,6 +117,14 @@ const NoteCard = ({ note }: { note: Note }) => {
         </div>
 
       </div>
+
+      {isUpdateModalOpen && (
+        <UpdateNoteModal
+          isOpen={isUpdateModalOpen}
+          onClose={() => setIsUpdateModalOpen(false)}
+          note={note}
+        />
+      )}
     </div>
   );
 };

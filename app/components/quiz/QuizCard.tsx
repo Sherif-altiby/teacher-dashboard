@@ -56,7 +56,7 @@ const QuizCard = ({ quiz }: { quiz: any }) => {
                 onClick={() => setShowOptions(false)}
               >
                 <Edit size={14} className="text-slate-400" />
-                <span>تعديل الاختبار</span>
+                <span>تعديل  </span>
               </Link>
 
               {/* حذف الاختبار */}
@@ -70,7 +70,7 @@ const QuizCard = ({ quiz }: { quiz: any }) => {
                 ) : (
                   <Trash2 size={14} className="text-red-400" />
                 )}
-                <span>حذف الاختبار</span>
+                <span>حذف  </span>
               </button>
             </div>
           )}
