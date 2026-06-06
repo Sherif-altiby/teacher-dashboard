@@ -46,7 +46,7 @@ const SubStats = () => {
 
         <Link
           href="/subjects"
-          className="h-10 w-10 bg-blue-600  text-white rounded-xl flex items-center justify-center shadow-lg shadow-emerald-200 hover:bg-blue-800 hover:-translate-y-1 transition-all active:scale-95"
+          className="h-10 w-10 bg-blue-600  text-white rounded-xl flex items-center justify-center shadow-lg shadow-blue-200 hover:bg-blue-800 hover:-translate-y-1 transition-all active:scale-95"
         >
           <Plus size={20} />
         </Link>
