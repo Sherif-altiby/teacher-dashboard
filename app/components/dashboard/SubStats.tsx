@@ -3,7 +3,8 @@
 import { API } from "@/app/constants";
 import CourseStatsSkeleton from "@/app/skeleton/CourseStatsSkeleto";
 import { useQuery } from "@tanstack/react-query";
-import { BookOpen, PlayCircle, Loader2 } from "lucide-react";
+import { BookOpen, PlayCircle, Loader2, Plus } from "lucide-react";
+import Link from "next/link";
 
 const SubStats = () => {
   const { data, isLoading } = useQuery({
@@ -30,16 +31,25 @@ const SubStats = () => {
 
   return (
     <div className="bg-white rounded-xl p-8 border border-slate-100 shadow-sm flex flex-col justify-between group hover:border-blue-200 transition-all">
-      <div className="flex items-center gap-4 mb-6">
-        <div className="h-12 w-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform">
-          <BookOpen size={24} />
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4 mb-6">
+          <div className="h-12 w-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform">
+            <BookOpen size={24} />
+          </div>
+          <div>
+            <h4 className="text-slate-400 text-xs font-black uppercase tracking-wider">
+              المحتوى التعليمي
+            </h4>
+            <p className="text-slate-900 font-black">المكتبة الخاصة بك</p>
+          </div>
         </div>
-        <div>
-          <h4 className="text-slate-400 text-xs font-black uppercase tracking-wider">
-            المحتوى التعليمي
-          </h4>
-          <p className="text-slate-900 font-black">المكتبة الخاصة بك</p>
-        </div>
+
+        <Link
+          href="/subjects"
+          className="h-10 w-10 bg-blue-600  text-white rounded-xl flex items-center justify-center shadow-lg shadow-emerald-200 hover:bg-blue-800 hover:-translate-y-1 transition-all active:scale-95"
+        >
+          <Plus size={20} />
+        </Link>
       </div>
 
       <div className="grid grid-cols-2 gap-4">

@@ -1,13 +1,15 @@
 "use client";
 
 import useLoginMutation from "@/app/hooks/auth/useLogin";
-import { Mail, Lock, ArrowRight, Loader2 } from "lucide-react";
+import { Mail, Lock, ArrowRight, Loader2, EyeOff, Eye } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const { mutate, isPending } = useLoginMutation();
 
@@ -60,13 +62,22 @@ const LoginPage = () => {
                 <div className="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-400 group-focus-within:text-[#0066FF] transition-colors">
                   <Lock size={18} />
                 </div>
+
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
-                  className="w-full text-sm text-gray-500 bg-slate-50 border border-slate-100 rounded-2xl py-4 pr-12 pl-4  placeholder:text-slate-400 outline-none focus:border-[#0066FF]/30 focus:bg-white focus:ring-4 focus:ring-[#0066FF]/5 transition-all text-left dir-ltr font-medium"
+                  className="w-full text-sm text-gray-500 bg-slate-50 border border-slate-100 rounded-2xl py-4 pr-12 pl-12 placeholder:text-slate-400 outline-none focus:border-[#0066FF]/30 focus:bg-white focus:ring-4 focus:ring-[#0066FF]/5 transition-all text-left dir-ltr font-medium"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
+
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400 hover:text-[#0066FF] transition-colors"
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
               </div>
             </div>
 
@@ -81,7 +92,7 @@ const LoginPage = () => {
               {isPending ? (
                 <Loader2
                   size={20}
-                  className="group-hover:-translate-x-1.25transition-transform"
+                  className="group-hover:-translate-x-1.25transition-transform animate-spin"
                 />
               ) : (
                 <ArrowRight

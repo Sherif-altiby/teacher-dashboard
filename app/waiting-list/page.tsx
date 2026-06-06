@@ -151,11 +151,11 @@ export default function WaitingListPage() {
                     {/* 3. Smarter Actions Row */}
                     <div className="mt-8 flex items-center justify-end gap-4 border-t border-slate-50 pt-6">
                       <button className="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-8 py-3 rounded-2xl text-sm font-black shadow-lg shadow-emerald-200 hover:shadow-emerald-300 hover:-translate-y-0.5 active:translate-y-0 transition-all"
-                         onClick={() => {
-                            let courseId = item.course._id;
-                            let userId = item.user._id
-                            mutate({courseId, userId})
-                         }}
+                        onClick={() => {
+                          let courseId = item.course._id;
+                          let userId = item.user._id
+                          mutate({ courseId, userId })
+                        }}
                       >
                         <Check size={18} />
                         تفعيل الاشتراك الآن
