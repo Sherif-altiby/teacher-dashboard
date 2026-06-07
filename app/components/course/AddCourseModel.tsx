@@ -153,35 +153,38 @@ const AddCourseModal = ({
             </div>
           </div>
 
-          <div className="flex items-center gap-4 ">
-            <div className="flex-1 bg-slate-50 rounded-xl px-4 py-2">
-              <label className="block text-[10px] font-bold text-slate-400 mb-1 text-right">
-                السعر الأصلي
-              </label>
-              <input
-                type="number"
-                required
-                className="w-full bg-transparent outline-none text-right font-bold text-slate-700"
-                placeholder="0"
-                onChange={(e) =>
-                  setFormData({ ...formData, price: +e.target.value })
-                }
-              />
+          {formData.status === "close" && (
+            <div className="flex items-center gap-4">
+              <div className="flex-1 bg-slate-50 rounded-xl px-4 py-2">
+                <label className="block text-[10px] font-bold text-slate-400 mb-1 text-right">
+                  السعر الأصلي
+                </label>
+                <input
+                  type="number"
+                  required={formData.status === "close"}
+                  className="w-full bg-transparent outline-none text-right font-bold text-slate-700"
+                  placeholder="0"
+                  onChange={(e) =>
+                    setFormData({ ...formData, price: +e.target.value })
+                  }
+                />
+              </div>
+
+              <div className="flex-1 bg-slate-50 rounded-xl px-4 py-2">
+                <label className="block text-[10px] font-bold text-slate-400 mb-1 text-right">
+                  قيمة الخصم
+                </label>
+                <input
+                  type="number"
+                  className="w-full bg-transparent outline-none text-right font-bold text-[#0066FF]"
+                  placeholder="0"
+                  onChange={(e) =>
+                    setFormData({ ...formData, offer: +e.target.value })
+                  }
+                />
+              </div>
             </div>
-            <div className="flex-1 bg-slate-50 rounded-xl px-4 py-2">
-              <label className="block text-[10px] font-bold text-slate-400 mb-1 text-right">
-                قيمة الخصم
-              </label>
-              <input
-                type="number"
-                className="w-full bg-transparent outline-none text-right font-bold text-[#0066FF]"
-                placeholder="0"
-                onChange={(e) =>
-                  setFormData({ ...formData, offer: +e.target.value })
-                }
-              />
-            </div>
-          </div>
+          )}
 
           <div className="pt-4">
             <button

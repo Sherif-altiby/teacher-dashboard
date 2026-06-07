@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { MoreVertical, Edit, Trash2, Eye } from "lucide-react";
@@ -9,6 +9,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteCourse } from "@/app/services/coursesService";
 import { toast } from "sonner";
 import UpdateCourseModel from "./UpdateCourseModel";
+import { useLevelStore } from "@/app/store/levelsStore";
 
 const CourseCard = ({ course, }: { course: Course, }) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -16,6 +17,10 @@ const CourseCard = ({ course, }: { course: Course, }) => {
   const finalPrice = hasOffer ? course.price - course.offer : course.price;
 
   const [showUpdateCourse, setShowUpdateCourse] = useState(false);
+
+  const courseLevel = useLevelStore((s) => s.levels);
+
+  const [currentLevelCourse, setCurrentLevelCourse] = useState("")
 
   const queryClient = useQueryClient();
 
@@ -29,6 +34,11 @@ const CourseCard = ({ course, }: { course: Course, }) => {
       toast.error(error.message || "حدث خطأ ما");
     },
   });
+
+  useEffect(() => {
+    const currentLevel = courseLevel.find((l) => l._id === course.level);
+    setCurrentLevelCourse(currentLevel?.name as string)
+  }, [course]);
 
 
   return (
@@ -56,7 +66,7 @@ const CourseCard = ({ course, }: { course: Course, }) => {
           {/* Dropdown Menu */}
           {showMenu && (
             <div className="absolute top-12 left-0 w-40 bg-white rounded-2xl shadow-2xl border border-slate-100/80 p-1.5 z-20 animate-in fade-in zoom-in-95 slide-in-from-top-2 duration-200" dir="rtl">
-              <button 
+              <button
                 className="w-full flex items-center justify-end gap-2 px-3 py-2 hover:bg-blue-50/50 rounded-xl text-xs font-bold text-slate-700 hover:text-[#0066FF] transition-colors"
                 onClick={() => {
                   setShowUpdateCourse(true);
@@ -69,7 +79,7 @@ const CourseCard = ({ course, }: { course: Course, }) => {
 
               <div className="h-[1px] bg-slate-100 my-1 mx-1" />
 
-              <button 
+              <button
                 className="w-full flex items-center justify-end gap-2 px-3 py-2 hover:bg-red-50/50 rounded-xl text-xs font-bold text-red-500 hover:text-red-600 transition-colors"
                 onClick={() => {
                   mutate(course._id);
@@ -86,7 +96,7 @@ const CourseCard = ({ course, }: { course: Course, }) => {
 
         {/* Level Badge (Top Right) */}
         <div className="absolute top-3 right-3 bg-[#0066FF] px-4 py-1.5 rounded-xl text-[10px] font-black text-white shadow-lg">
-          {course.level}
+          {currentLevelCourse}
         </div>
 
         {/* Offer Percentage (Bottom Right) */}
@@ -121,8 +131,30 @@ const CourseCard = ({ course, }: { course: Course, }) => {
             </>
           ) : (
             <span className="text-2xl font-black text-slate-900">
-              {course.price}{" "}
-              <span className="text-sm font-medium text-slate-500">ج.م</span>
+              {course.price === 0 ? (
+                <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 px-5 py-2 shadow-md">
+                  <svg
+                    className="h-5 w-5 text-white"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.707a1 1 0 00-1.414-1.414L9 10.172 7.707 8.879a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+
+                  <span className="text-white font-bold text-[13px]">
+                    هذا الكورس مجاني
+                  </span>
+                </div>
+              ) : (
+                <>
+                  {course.price}
+                  <span className="text-sm font-medium text-slate-500"> ج.م</span>
+                </>
+              )}
             </span>
           )}
         </div>
