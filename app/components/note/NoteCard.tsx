@@ -8,6 +8,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { API } from '@/app/constants';
 import { toast } from 'sonner';
 import UpdateNoteModal from './UpdateNote';
+import { useLevelStore } from '@/app/store/levelsStore';
 
 
 const NoteCard = ({ note }: { note: Note }) => {
@@ -15,6 +16,10 @@ const NoteCard = ({ note }: { note: Note }) => {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const queryClient = useQueryClient();
   const menuRef = useRef<HTMLDivElement>(null);
+
+  const courseLevel = useLevelStore((s) => s.levels);
+
+  const [currentLevelCourse, setCurrentLevelCourse] = useState("")
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -27,6 +32,11 @@ const NoteCard = ({ note }: { note: Note }) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [showOptions]);
+
+  useEffect(() => {
+    const currentLevel = courseLevel.find((l) => l._id === note.level);
+    setCurrentLevelCourse(currentLevel?.name as string)
+  }, [note]);
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (id: string) => {
@@ -90,12 +100,12 @@ const NoteCard = ({ note }: { note: Note }) => {
           <h3 className="text-xl font-black text-slate-900 mb-2 group-hover:text-emerald-700 transition-colors line-clamp-1">
             {note.title}
           </h3>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 justify-between">
             <span className="px-3 py-1 bg-slate-100 text-slate-600 text-[10px] font-black rounded-lg uppercase tracking-wider">
               {note.course?.title || "عام"}
             </span>
             <span className="px-3 py-1 bg-emerald-100 text-emerald-700 text-[10px] font-black rounded-lg uppercase tracking-wider">
-              {note.level}
+              {currentLevelCourse}
             </span>
           </div>
         </div>

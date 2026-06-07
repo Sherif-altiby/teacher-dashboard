@@ -281,9 +281,9 @@ const CreateQuiz = () => {
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-4 py-8 space-y-6">
+      <section className="max-w-5xl mx-auto px-4 py-8 space-y-6">
 
-        {/* Section 1: Main Settings */}
+        {/* Section 1:   Settings */}
         <div className="bg-white rounded-2xl border border-slate-200 p-3 md:p-6  shadow-sm space-y-6">
           <div className="flex items-center gap-2 border-b border-slate-50 pb-4">
             <LayoutGrid size={18} className="text-indigo-600" />
@@ -519,7 +519,7 @@ const CreateQuiz = () => {
           <Plus size={20} className="group-hover:rotate-90 transition-transform" />
           <span className="text-[13px] md:text-[16px]" >إضافة سؤال جديد</span>
         </button>
-      </main>
+      </section>
     </div>
   );
 };
