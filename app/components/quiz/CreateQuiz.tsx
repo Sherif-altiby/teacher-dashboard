@@ -14,6 +14,8 @@ import { toast } from "sonner";
 import MainButton from "../common/MainButton";
 import CustomSelect from "../common/CustomSelect";
 import Image from "next/image";
+import { getCourseLessons, subjectCourses } from "@/app/services/coursesService";
+import MultiSelect from "../common/MultiSelect";
 
 interface Question {
   title: string;
@@ -36,12 +38,14 @@ const CreateQuiz = () => {
   const levels = useLevelStore((s) => s.levels);
   const { setSubjects } = useSubjectStore();
 
+
   // --- State ---
   const [quizTitle, setQuizTitle] = useState("");
   const [quizDuration, setQuizDuration] = useState("");
   const [selectedLevelId, setSelectedLevelId] = useState("");
   const [selectedSubjectId, setSelectedSubjectId] = useState("");
   const [selectedCourseId, setSelectedCourseId] = useState("");
+  const [selectedLessons, setSelectedLessons] = useState<string[]>([]);
   const [questions, setQuestions] = useState<Question[]>([
     {
       title: "",
@@ -134,6 +138,10 @@ const CreateQuiz = () => {
     setQuestions(newQuestions);
   };
 
+  useEffect(() => {
+    console.log(selectedLessons);
+  }, [selectedLessons]);
+
   const removeAnswerImage = (qIndex: number, aIndex: number) => {
     const newQuestions = [...questions];
     newQuestions[qIndex].answers[aIndex].image = null;
@@ -164,8 +172,39 @@ const CreateQuiz = () => {
     enabled: !!user?._id,
   });
 
-  const currentSubject = subjects.find((s: any) => s._id === selectedSubjectId);
-  const availableCourses = currentSubject ? currentSubject.courses : [];
+  const { data: courses } = useQuery({
+    queryKey: ["teacher-courses", selectedSubjectId, selectedLevelId],
+    queryFn: () => subjectCourses(selectedSubjectId as string, selectedLevelId),
+    enabled: !!selectedSubjectId && !!selectedLevelId,
+  });
+
+
+  const [availableCourses, setavailableCourses] = useState(courses || []);
+
+  useEffect(() => {
+    setavailableCourses(courses || []);
+  }, [courses]);
+
+
+  const { data: lessons } = useQuery({
+    queryKey: ["teacher-courses-lessons", selectedCourseId],
+    queryFn: () => getCourseLessons(selectedCourseId as string),
+    enabled: !!selectedCourseId,
+  });
+
+  useEffect(() => {
+    console.log("lessons", lessons);
+  }, [lessons]);
+
+
+  const handleLessonChange = (lessonId: string) => {
+    setSelectedLessons((prev) =>
+      prev.includes(lessonId)
+        ? prev.filter((id) => id !== lessonId)
+        : [...prev, lessonId]
+    );
+  };
+
 
   // --- Mutation: Upload Quiz ---
   const uploadMutation = useMutation({
@@ -220,6 +259,7 @@ const CreateQuiz = () => {
     formData.append('duration', quizDuration);
     formData.append('subjectId', selectedSubjectId);
     formData.append('courseId', selectedCourseId);
+    formData.append('lessons', JSON.stringify(selectedLessons));
     formData.append('level', selectedLevelId);
 
     // Prepare questions data (without files)
@@ -349,6 +389,20 @@ const CreateQuiz = () => {
                 icon={LayoutGrid}
                 placeholder="اختر الكورس"
                 disabled={!selectedSubjectId}
+              />
+            </div>
+
+            <div className="md:col-span-4 space-y-2">
+              <label className="text-xs font-bold text-slate-500 px-1 block">الدروس</label>
+              <MultiSelect
+                value={selectedLessons}
+                onChange={setSelectedLessons}
+                options={lessons?.map((lesson: any) => ({
+                  value: lesson._id,
+                  label: lesson.title,
+                }))}
+                placeholder="اختر الدروس الخاصة بالاختبار"
+                icon={BookOpen}
               />
             </div>
           </div>

@@ -115,6 +115,16 @@ const QuizCard = ({ quiz }: { quiz: any }) => {
         </div>
       </div>
 
+      {quiz?.lessons?.length > 0 && (
+        <div className="flex flex-wrap gap-2 mb-6">
+          {quiz.lessons.map((lesson: any) => (
+            <span key={lesson._id} className="text-slate-400 text-[11px] font-bold bg-slate-50 px-2 py-1 rounded-lg">
+              {lesson.title}
+            </span>
+          ))}
+        </div>
+      )}
+
       <div className="flex items-center justify-between pt-4 border-t border-slate-50">
         <Link
           href={`/quizzes/${quiz._id}`}

@@ -17,7 +17,7 @@ export default function CoursesPage() {
   const { subId } = useParams();
   const [level, setLevel] = useState<string>("");
   const [showAddCourse, setShowAddCourse] = useState(false);
-  
+
 
   const levels = useLevelStore((s) => s.levels);
 
@@ -66,7 +66,7 @@ export default function CoursesPage() {
         {levels.map((lvl) => (
           <button
             key={lvl._id}
-            onClick={() => setLevel(lvl.name)}
+            onClick={() => setLevel(lvl._id)}
             className={`px-6 py-2.5 rounded-lg text-sm  transition-all border whitespace-nowrap ${level === lvl.name
               ? "bg-[#0066FF] text-white border-[#0066FF] shadow-md"
               : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50"
@@ -87,7 +87,7 @@ export default function CoursesPage() {
       ) : data?.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
           {data.map((course: any) => (
-            <CourseCard key={course._id} course={course}  />
+            <CourseCard key={course._id} course={course} />
           ))}
         </div>
       ) : (
