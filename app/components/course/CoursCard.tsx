@@ -17,12 +17,16 @@ const CourseCard = ({ course, }: { course: Course, }) => {
   const finalPrice = hasOffer ? course.price - course.offer : course.price;
 
   const [showUpdateCourse, setShowUpdateCourse] = useState(false);
+  const queryClient = useQueryClient();
 
   const courseLevel = useLevelStore((s) => s.levels);
-
   const [currentLevelCourse, setCurrentLevelCourse] = useState("")
 
-  const queryClient = useQueryClient();
+  useEffect(() => {
+    const currentLevel = courseLevel.find((l) => l._id === course.level);
+    setCurrentLevelCourse(currentLevel?.name as string)
+  }, [course]);
+
 
   const { mutate, isPending } = useMutation({
     mutationFn: deleteCourse,
@@ -35,10 +39,6 @@ const CourseCard = ({ course, }: { course: Course, }) => {
     },
   });
 
-  useEffect(() => {
-    const currentLevel = courseLevel.find((l) => l._id === course.level);
-    setCurrentLevelCourse(currentLevel?.name as string)
-  }, [course]);
 
 
   return (

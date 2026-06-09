@@ -11,13 +11,23 @@ import {
 } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { API } from "@/app/constants";
 import Link from "next/link";
+import { useLevelStore } from "@/app/store/levelsStore";
 
 const QuizCard = ({ quiz }: { quiz: any }) => {
   const queryClient = useQueryClient();
   const [showOptions, setShowOptions] = useState(false);
+
+
+  const courseLevel = useLevelStore((s) => s.levels);
+  const [currentLevelQuiz, setCurrentLevelQuiz] = useState("")
+
+  useEffect(() => {
+    const currentLevel = courseLevel.find((l) => l._id === quiz.level);
+    setCurrentLevelQuiz(currentLevel?.name as string)
+  }, [quiz]);
 
   // منطق الحذف باستخدام React Query
   const { mutate: deleteQuiz, isPending } = useMutation({
@@ -98,7 +108,7 @@ const QuizCard = ({ quiz }: { quiz: any }) => {
           {quiz.course?.title}
         </span>
         <span className="text-slate-400 text-[11px] font-bold bg-slate-50 px-2 py-1 rounded-lg">
-          {quiz.level}
+          {currentLevelQuiz}
         </span>
       </div>
 
