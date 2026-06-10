@@ -123,6 +123,7 @@ const AddCourseModal = ({
                   setFormData({ ...formData, level: e.target.value })
                 }
               >
+                <option value="">المستوى</option>
                 {levels.map((level) => (
                   <option key={level._id} value={level._id}>
                     {level.name}
