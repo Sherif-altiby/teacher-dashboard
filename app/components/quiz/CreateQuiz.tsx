@@ -138,9 +138,7 @@ const CreateQuiz = () => {
     setQuestions(newQuestions);
   };
 
-  useEffect(() => {
-    console.log(selectedLessons);
-  }, [selectedLessons]);
+
 
   const removeAnswerImage = (qIndex: number, aIndex: number) => {
     const newQuestions = [...questions];
@@ -192,9 +190,7 @@ const CreateQuiz = () => {
     enabled: !!selectedCourseId,
   });
 
-  useEffect(() => {
-    console.log("lessons", lessons);
-  }, [lessons]);
+
 
 
   const handleLessonChange = (lessonId: string) => {

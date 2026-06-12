@@ -3,9 +3,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Check,
-  X,
   User,
-  BookOpen,
   Calendar,
   ExternalLink,
   Loader2,
@@ -17,13 +15,24 @@ import { getWaitingList, removeItemList } from "../services/listService";
 import { toast } from "sonner";
 import { ListItem } from "../types";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function WaitingListPage() {
   const queryClient = useQueryClient();
 
+  const [page, setPage] = useState(1);
+  const limit = 10;
+
+  const [method, setMethod] = useState<"" | "vCash" | "instaPay">("");
+
   const { data: list, isLoading } = useQuery({
-    queryKey: ["waiting-list"],
-    queryFn: getWaitingList,
+    queryKey: ["waiting-list", page, method],
+    queryFn: () =>
+      getWaitingList({
+        page,
+        limit,
+        method,
+      }),
   });
 
   const { mutate, isPending } = useMutation({
@@ -59,111 +68,179 @@ export default function WaitingListPage() {
               طلبات الإنضمام
             </h1>
             <p className="text-slate-500 text-sm font-medium">
-              لديك {list?.length || 0} طلبات بانتظار المراجعة حالياً
+              لديك {list?.lists?.length || 0} طلبات بانتظار المراجعة حالياً
             </p>
           </div>
         </div>
 
+        <div className="flex flex-wrap gap-3 mt-6 mb-3">
+          <button
+            onClick={() => {
+              setMethod("");
+              setPage(1);
+            }}
+            className={`px-5 py-2 rounded-xl font-bold transition-all ${method === ""
+              ? "bg-slate-900 text-white"
+              : "bg-white border border-slate-200 text-slate-600"
+              }`}
+          >
+            الكل
+          </button>
+
+          <button
+            onClick={() => {
+              setMethod("vCash");
+              setPage(1);
+            }}
+            className={`px-5 py-2 rounded-xl font-bold transition-all ${method === "vCash"
+              ? "bg-red-600 text-white"
+              : "bg-white border border-slate-200 text-slate-600"
+              }`}
+          >
+            Vodafone Cash
+          </button>
+
+          <button
+            onClick={() => {
+              setMethod("instaPay");
+              setPage(1);
+            }}
+            className={`px-5 py-2 rounded-xl font-bold transition-all ${method === "instaPay"
+              ? "bg-purple-600 text-white"
+              : "bg-white border border-slate-200 text-slate-600"
+              }`}
+          >
+            InstaPay
+          </button>
+        </div>
+
         {/* List Section */}
         <div className="space-y-8">
-          {list?.length > 0 ? (
-            list.map((item: ListItem) => (
-              <div
-                key={item._id}
-                className="group bg-white rounded-[2.5rem] p-2 border border-slate-100 shadow-xl shadow-slate-200/40 hover:shadow-2xl hover:shadow-blue-200/20 transition-all duration-500"
-              >
-                <div className="flex flex-col lg:flex-row items-stretch gap-4">
-                  {/* 1. Enhanced Receipt Preview */}
-                  <div className="relative overflow-hidden rounded-xl lg:w-56 h-64 lg:h-auto shrink-0">
-                    <Image
-                      src={item.image}
-                      alt="Receipt"
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      width={500}
-                      height={500}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60"></div>
-                    <a
-                      href={item.image}
-                      target="_blank"
-                      className="absolute bottom-4 right-4 left-4 bg-white/20 backdrop-blur-md border border-white/30 text-white py-2.5 rounded-xl flex items-center justify-center gap-2 text-[11px] font-bold hover:bg-white hover:text-black transition-all"
-                    >
-                      <ExternalLink size={14} /> تكبير الإيصال
-                    </a>
-                  </div>
+          {list?.lists?.length > 0 ? (
+            list.lists.map((item: ListItem) => (
 
-                  {/* 2. Main Content Info */}
-                  <div className="flex-1 p-6 flex flex-col justify-between">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                      {/* Student Info */}
-                      <div className="space-y-4">
-                        <div className="flex items-center gap-3">
-                          <div className="h-12 w-12 bg-blue-50 rounded-2xl flex items-center justify-center text-[#0066FF]">
-                            <User size={24} />
-                          </div>
-                          <div>
-                            <h3 className="text-base font-black text-slate-800">
-                              {item.user.name}
-                            </h3>
-                            <div className="flex items-center gap-2 text-slate-400 text-xs mt-0.5">
-                              <Mail size={14} />
-                              {item.user.email}
-                            </div>
-                          </div>
-                        </div>
-                        <div className="flex gap-2">
-                          <span className="flex items-center gap-1.5 bg-slate-100 text-slate-600 px-3 py-1.5 rounded-lg text-[11px] font-bold">
-                            <GraduationCap size={14} />
-                            {item.user.level}
-                          </span>
-                        </div>
-                      </div>
+              <div key={item._id}>
+                <div
 
-                      {/* Course Info Card */}
-                      <div className="bg-slate-50/80 rounded-3xl p-4 border border-slate-100">
-                        <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">
-                          الكورس المطلوب
-                        </div>
-                        <div className="flex items-center gap-4">
-                          <Image
-                            src={item?.course?.image}
-                            className="w-14 h-14 rounded-2xl object-cover shadow-sm"
-                            alt=""
-                            width={50}
-                            height={50}
-                          />
-                          <div>
-                            <h4 className="font-black text-slate-800 text-sm leading-tight">
-                              {item?.course?.title}
-                            </h4>
-                            <div className="flex items-center gap-1.5 text-slate-400 text-[11px] mt-1">
-                              <Calendar size={12} />
-                              {new Date(item.createdAt).toLocaleDateString(
-                                "ar-EG",
-                                { day: "numeric", month: "long" },
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                  className="group bg-white rounded-xl p-2 border border-slate-100 shadow-xl shadow-slate-200/40 hover:shadow-2xl hover:shadow-blue-200/20 transition-all duration-500"
+                >
+                  <div className="flex flex-col lg:flex-row items-stretch gap-4">
+                    {/* 1. Enhanced Receipt Preview */}
+                    <div className="relative overflow-hidden rounded-xl lg:w-56 h-64 lg:h-auto shrink-0">
+                      <Image
+                        src={item.image}
+                        alt="Receipt"
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        width={500}
+                        height={500}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60"></div>
+                      <a
+                        href={item.image}
+                        target="_blank"
+                        className="absolute bottom-4 right-4 left-4 bg-white/20 backdrop-blur-md border border-white/30 text-white py-2.5 rounded-xl flex items-center justify-center gap-2 text-[11px] font-bold hover:bg-white hover:text-black transition-all"
+                      >
+                        <ExternalLink size={14} /> تكبير الإيصال
+                      </a>
                     </div>
 
-                    {/* 3. Smarter Actions Row */}
-                    <div className="mt-8 flex items-center justify-end gap-4 border-t border-slate-50 pt-6">
-                      <button className="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-8 py-3 rounded-2xl text-sm font-black shadow-lg shadow-emerald-200 hover:shadow-emerald-300 hover:-translate-y-0.5 active:translate-y-0 transition-all"
-                        onClick={() => {
-                          let courseId = item.course._id;
-                          let userId = item.user._id
-                          mutate({ courseId, userId })
-                        }}
-                      >
-                        <Check size={18} />
-                        تفعيل الاشتراك الآن
-                      </button>
+                    {/* 2. Main Content Info */}
+                    <div className="flex-1 p-6 flex flex-col justify-between">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {/* Student Info */}
+                        <div className="space-y-4">
+                          <div className="flex items-center gap-3">
+                            <div className="h-12 w-12 bg-blue-50 rounded-2xl flex items-center justify-center text-[#0066FF]">
+                              <User size={24} />
+                            </div>
+                            <div>
+                              <h3 className="text-base font-black text-slate-800">
+                                {item.user.name}
+                              </h3>
+                              <div className="flex items-center gap-2 text-slate-400 text-xs mt-0.5">
+                                <Mail size={14} />
+                                {item.user.email}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="flex gap-2">
+                            <span className="flex items-center gap-1.5 bg-slate-100 text-slate-600 px-3 py-1.5 rounded-lg text-[11px] font-bold">
+                              <GraduationCap size={14} />
+                              {item.user.level}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Course Info Card */}
+                        <div className="bg-slate-50/80 rounded-3xl p-4 border border-slate-100">
+                          <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">
+                            الكورس المطلوب
+                          </div>
+                          <div className="flex items-center gap-4">
+                            <Image
+                              src={item?.course?.image}
+                              className="w-14 h-14 rounded-2xl object-cover shadow-sm"
+                              alt=""
+                              width={50}
+                              height={50}
+                            />
+                            <div>
+                              <h4 className="font-black text-slate-800 text-sm leading-tight">
+                                {item?.course?.title}
+                              </h4>
+                              <div className="flex items-center gap-1.5 text-slate-400 text-[11px] mt-1">
+                                <Calendar size={12} />
+                                {new Date(item.createdAt).toLocaleDateString(
+                                  "ar-EG",
+                                  { day: "numeric", month: "long" },
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* 3. Smarter Actions Row */}
+                      <div className="mt-8 flex items-center justify-end gap-4 border-t border-slate-50 pt-6">
+                        <button className="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-8 py-3 rounded-2xl text-sm font-black shadow-lg shadow-emerald-200 hover:shadow-emerald-300 hover:-translate-y-0.5 active:translate-y-0 transition-all"
+                          onClick={() => {
+                            let courseId = item.course._id;
+                            let userId = item.user._id
+                            mutate({ courseId, userId })
+                          }}
+                        >
+                          <Check size={18} />
+                          تفعيل الاشتراك الآن
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
+                {list?.pagination?.pages > 1 && (
+                  <div className="flex items-center justify-center gap-3 mt-10">
+                    <button
+                      disabled={page === 1}
+                      onClick={() => setPage((prev) => prev - 1)}
+                      className="px-5 py-2 rounded-xl border disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                      السابق
+                    </button>
+
+                    <span className="font-bold text-slate-700">
+                      صفحة {list.pagination.page} من {list.pagination.pages}
+                    </span>
+
+                    <button
+                      disabled={page >= list.pagination.pages}
+                      onClick={() => setPage((prev) => prev + 1)}
+                      className="px-5 py-2 rounded-xl border disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                      التالي
+                    </button>
+                  </div>
+                )}
               </div>
+
             ))
           ) : (
             /* Smart Empty State */

@@ -27,21 +27,18 @@ export async function login(email: string, password: string) {
   }
 }
 
-export const checkAuth = async () => {
-  try {
-     const response = await fetch(`${API}/user/check`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include"
-    });
 
-    const data = await response.json()
-    if(!data.teacher){
-      location.href = "/login"
-    }
-  } catch (error) {
-    location.href = '/login'
+export const getTeacherMe = async () => {
+  const res = await fetch(`${API}/teacher/me`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || "Failed to fetch teacher data");
   }
-}
+
+  return data.data;
+};

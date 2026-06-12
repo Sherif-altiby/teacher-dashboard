@@ -21,6 +21,14 @@ export interface User {
   subjects: UserSubject[];
   isBlocked: boolean;
   notifications: any[];
+  vCash: {
+    number: string;
+    walletName: string;
+  };
+  instaPay: {
+    number: string;
+    instaPayName: string;
+  };
 }
 
 export interface Subject {

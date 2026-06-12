@@ -93,7 +93,7 @@ export const updateCourse = async ({
   formData: FormData
 }) => {
 
-  console.log("Form Data", formData);
+
 
 
   const response = await fetch(`${API}/teacher/update-course/${courseId}`, {

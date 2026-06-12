@@ -9,18 +9,23 @@ import {
   User2,
 } from "lucide-react";
 import { useAuthStore } from "@/app/store/authStore";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { API } from "@/app/constants";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { teacherUpdateAvatar } from "@/app/services/TeacherServices";
 import { User } from "@/app/types";
+import { getTeacherMe } from "@/app/services/authService";
 
 interface UserUpdateDetails {
   name: string;
   email: string;
   about: string;
   phone: string;
+  vCashNumber: string;
+  vCashName: string;
+  instaNumber: string;
+  instaName: string;
 }
 
 const UpdatTeacherData = () => {
@@ -32,7 +37,41 @@ const UpdatTeacherData = () => {
     email: user?.email || "",
     about: user?.about || "",
     phone: user?.phone || "",
+
+    vCashNumber: user?.vCash?.number || "",
+    vCashName: user?.vCash?.walletName || "",
+
+    instaNumber: user?.instaPay?.number || "",
+    instaName: user?.instaPay?.instaPayName || "",
   });
+
+
+  const { data } = useQuery({
+    queryKey: ["teacher-me"],
+    queryFn: getTeacherMe,
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: true,
+  });
+
+  useEffect(() => {
+    if (data) {
+      setAuth(data);
+
+      setUserDetails({
+        name: data.name,
+        email: data.email,
+        about: data.about,
+        phone: data.phone,
+
+        vCashNumber: data.vCash.number,
+        vCashName: data.vCash.walletName,
+
+        instaNumber: data.instaPay.number,
+        instaName: data.instaPay.instaPayName,
+      });
+    }
+  }, [data])
+
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (updatedData: UserUpdateDetails) => {
@@ -63,6 +102,8 @@ const UpdatTeacherData = () => {
       return toast.error("يرجى ملء الحقول الأساسية");
     }
 
+
+
     mutate(userDetails);
   };
 
@@ -71,7 +112,6 @@ const UpdatTeacherData = () => {
     onSuccess: (res) => {
       if (res.status) {
         toast.success("تم تحديث الصورة الشخصية بنجاح");
-        console.log(res.data.avatar)
 
         const newUser = { ...user, avatar: res.data.avatar } as User
         setAuth(newUser)
@@ -219,6 +259,82 @@ const UpdatTeacherData = () => {
               </div>
             </div>
 
+            <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* vCash Number */}
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase">
+                  رقم Vodafone Cash
+                </label>
+                <input
+                  type="text"
+                  value={userDetails.vCashNumber}
+                  onChange={(e) =>
+                    setUserDetails({
+                      ...userDetails,
+                      vCashNumber: e.target.value,
+                    })
+                  }
+                  className="w-full bg-slate-50 rounded-2xl py-3 px-4 text-sm font-bold"
+                />
+              </div>
+
+              {/* vCash Name */}
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase">
+                  اسم المحفظة
+                </label>
+                <input
+                  type="text"
+                  value={userDetails.vCashName}
+                  onChange={(e) =>
+                    setUserDetails({
+                      ...userDetails,
+                      vCashName: e.target.value,
+                    })
+                  }
+                  className="w-full bg-slate-50 rounded-2xl py-3 px-4 text-sm font-bold"
+                />
+              </div>
+            </div>
+
+            <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+              {/* Insta Number */}
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase">
+                  رقم InstaPay
+                </label>
+                <input
+                  type="text"
+                  value={userDetails.instaNumber}
+                  onChange={(e) =>
+                    setUserDetails({
+                      ...userDetails,
+                      instaNumber: e.target.value,
+                    })
+                  }
+                  className="w-full bg-slate-50 rounded-2xl py-3 px-4 text-sm font-bold"
+                />
+              </div>
+
+              {/* Insta Name */}
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase">
+                  اسم InstaPay
+                </label>
+                <input
+                  type="text"
+                  value={userDetails.instaName}
+                  onChange={(e) =>
+                    setUserDetails({
+                      ...userDetails,
+                      instaName: e.target.value,
+                    })
+                  }
+                  className="w-full bg-slate-50 rounded-2xl py-3 px-4 text-sm font-bold"
+                />
+              </div>
+            </div>
+
             {/* About Field */}
             <div className="md:col-span-2 space-y-2">
               <div className="flex justify-between items-end px-1">
@@ -235,7 +351,7 @@ const UpdatTeacherData = () => {
                   size={18}
                 />
                 <textarea
-                  rows={4}
+                  rows={10}
                   value={userDetails.about}
                   onChange={(e) =>
                     setUserDetails({ ...userDetails, about: e.target.value })
