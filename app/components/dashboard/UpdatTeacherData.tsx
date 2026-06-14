@@ -63,11 +63,11 @@ const UpdatTeacherData = () => {
         about: data.about,
         phone: data.phone,
 
-        vCashNumber: data.vCash.number,
-        vCashName: data.vCash.walletName,
+        vCashNumber: data?.vCash?.number,
+        vCashName: data?.vCash?.walletName,
 
-        instaNumber: data.instaPay.number,
-        instaName: data.instaPay.instaPayName,
+        instaNumber: data?.instaPay?.number,
+        instaName: data?.instaPay?.instaPayName,
       });
     }
   }, [data])
