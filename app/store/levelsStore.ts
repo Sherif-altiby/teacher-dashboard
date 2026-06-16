@@ -26,7 +26,7 @@ export const useLevelStore = create<LevelState>()(
       fetchLevels: async () => {
         set({ isLoading: true, error: null });
         try {
-          const response = await fetch(`${API}/user/get-levels`, {
+          const response = await fetch(`${API}/user/get-levels?q=${true}`, {
             credentials: "include"
           });
           const result = await response.json();
