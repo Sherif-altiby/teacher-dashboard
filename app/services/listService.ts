@@ -1,60 +1,67 @@
 import { API } from "../constants";
 
 export const getWaitingList = async ({
-    page = 1,
-    limit = 10,
-    method = "",
+  page = 1,
+  limit = 10,
+  method = "",
+  search,
+  level,
 }: {
-    page?: number;
-    limit?: number;
-    method?: "vCash" | "instaPay" | "";
+  page?: number;
+  limit?: number;
+  method?: "vCash" | "instaPay" | "";
+  search?: string;
+  level?: string;
 }) => {
-    const params = new URLSearchParams();
+  const params = new URLSearchParams();
 
-    params.append("page", page.toString());
-    params.append("limit", limit.toString());
+  params.append("page", page.toString());
+  params.append("limit", limit.toString());
 
-    if (method) {
-        params.append("method", method);
-    }
+  if (method) params.append("method", method);
+  if (search) params.append("search", search);
+  if (level) params.append("level", level);
+  
+  const response = await fetch(`${API}/teacher/get-list?${params.toString()}`, {
+    method: "GET",
+    credentials: "include",
+  });
 
-    const response = await fetch(
-        `${API}/teacher/get-list?${params.toString()}`,
-        {
-            method: "GET",
-            credentials: "include",
-        }
-    );
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "فشل جلب قائمة الانتظار");
+  }
+
+  return data;
+};
+
+export const removeItemList = async ({
+  courseId,
+  userId,
+}: {
+  courseId: string;
+  userId: string;
+}) => {
+  try {
+    const response = await fetch(`${API}/teacher/delete-list-item`, {
+      method: "DELETE",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ courseId, userId }),
+    });
 
     const data = await response.json();
 
     if (!response.ok) {
-        throw new Error(data.message || "فشل جلب قائمة الانتظار");
+      throw new Error(data.message || "حدث خطأ أثناء الحذف");
     }
 
-    return data;
+    return data.data;
+  } catch (error: any) {
+    // Re-throw the error so React Query's onError can catch it
+    throw new Error(error.message || "حاول مرة اخري");
+  }
 };
-
-export const removeItemList = async ({ courseId, userId }: { courseId: string; userId: string }) => {
-    try {
-        const response = await fetch(`${API}/teacher/delete-list-item`, {
-            method: "DELETE",
-            credentials: 'include',
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ courseId, userId }),
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.message || "حدث خطأ أثناء الحذف");
-        }
-
-        return data.data;
-    } catch (error: any) {
-        // Re-throw the error so React Query's onError can catch it
-        throw new Error(error.message || "حاول مرة اخري");
-    }
-}
