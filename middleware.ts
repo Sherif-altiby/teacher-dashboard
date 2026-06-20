@@ -6,12 +6,6 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
 
-
-  // 1. إذا حاول المستخدم دخول صفحة Login وهو مسجل دخول فعلاً
-  if (pathname === "/login" && token) {
-    return NextResponse.redirect(new URL("/", request.url));
-  }
-
   // 2. السماح بمرور الصفحات العامة أو صفحة تسجيل الدخول (بدون شروط)
   if (pathname === "/login") {
     return NextResponse.next();

@@ -103,6 +103,10 @@ export interface Note {
     _id: string;
     title: string;
   }
+  lesson?: {
+    _id: string;
+    title: string;
+  }
   title: string;
   level: string;
   pdf: string;

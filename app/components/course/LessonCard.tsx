@@ -1,15 +1,17 @@
 import { API } from "@/app/constants";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Edit3, Play, Trash2 } from "lucide-react";
+import { Edit3, FileText, Play, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
 import { useState } from "react";
 import UpdateLesson from "./UpdateLesson";
+import AddLessonNote from "../note/AddLessonNote";
 
 const LessonCard = ({ lesson }: { lesson: any }) => {
   const queryClient = useQueryClient();
 
   const [showUpdateLesson, setShowUpdateLesson] = useState(false);
+  const [showAddNote, setShowAddNote] = useState(false);
 
   const getYouTubeThumbnail = (url: string) => {
     const videoId = url.split("v=")[1]?.split("&")[0] || url.split("/").pop();
@@ -28,7 +30,6 @@ const LessonCard = ({ lesson }: { lesson: any }) => {
     },
     onSuccess: () => {
       toast.success("تمت إضافة الدرس بنجاح");
-      // Refetch the lessons list to show the new card immediately
       queryClient.invalidateQueries({ queryKey: ["lessons"] });
     },
     onError: (error: any) => {
@@ -63,16 +64,27 @@ const LessonCard = ({ lesson }: { lesson: any }) => {
         </p>
 
         {/* Management Buttons Row */}
-        <div className="grid grid-cols-2 gap-3 pt-4 border-t border-slate-50">
+        {/* Management Buttons Row */}
+        <div className="grid grid-cols-3 gap-3 pt-4 border-t border-slate-50">
           <button
             onClick={() => setShowUpdateLesson(true)}
-            className="flex items-center justify-center gap-2 py-2 rounded-lg bg-blue-50 text-[#0066FF]  text-xs hover:bg-[#0066FF] hover:text-white transition-all">
+            className="flex items-center justify-center gap-2 py-2 rounded-lg bg-blue-50 text-[#0066FF] text-xs hover:bg-[#0066FF] hover:text-white transition-all"
+          >
             <Edit3 size={14} />
             تعديل
           </button>
+
+          <button
+            onClick={() => setShowAddNote(true)}
+            className="flex items-center justify-center gap-2 py-2 rounded-lg bg-emerald-50 text-emerald-600 text-xs hover:bg-emerald-600 hover:text-white transition-all"
+          >
+            <FileText size={14} />
+            إضافة مذكرة
+          </button>
+
           <button
             onClick={() => mutate()}
-            className="flex items-center justify-center gap-2 py-2 rounded-lg bg-red-50 text-red-600  text-xs hover:bg-red-600 hover:text-white transition-all"
+            className="flex items-center justify-center gap-2 py-2 rounded-lg bg-red-50 text-red-600 text-xs hover:bg-red-600 hover:text-white transition-all"
           >
             <Trash2 size={14} />
             {isPending ? "جاري الحذف..." : "حذف"}
@@ -85,6 +97,13 @@ const LessonCard = ({ lesson }: { lesson: any }) => {
         <UpdateLesson
           showUpdateLesson={setShowUpdateLesson}
           lesson={lesson}
+        />
+      )}
+
+      {showAddNote && (
+        <AddLessonNote
+          lesson={lesson}
+          setShowAddNote={setShowAddNote}
         />
       )}
 

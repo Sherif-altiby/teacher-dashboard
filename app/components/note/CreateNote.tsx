@@ -16,6 +16,7 @@ import { API } from "@/app/constants";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import MainButton from "../common/MainButton";
+import { uploadPdfService } from "@/app/services/noteServices";
 
 interface CreateNoteModalProps {
     isOpen: boolean;
@@ -90,26 +91,21 @@ const CreateNoteModal = ({ isOpen, onClose }: CreateNoteModalProps) => {
 
     // --- Upload Mutation ---
     const uploadMutation = useMutation({
-        mutationFn: async (formData: FormData) => {
-            const response = await fetch(`${API}/teacher/upload-pdf`, {
-                method: "POST",
-                credentials: "include",
-                body: formData,
-            });
-            return response.json();
-        },
+        mutationFn: uploadPdfService,
+
         onSuccess: (data) => {
-            if (data.status) {
-                toast.success("تم نشر المذكرة بنجاح");
-                queryClient.invalidateQueries({ queryKey: ["teacherNotes"] });
-                onClose();
-            } else {
-                toast.error(data.message || "حدث خطأ أثناء الرفع");
-            }
+            toast.success("تم نشر المذكرة بنجاح");
+
+            queryClient.invalidateQueries({
+                queryKey: ["teacherNotes"],
+            });
+
+            onClose();
         },
-        onError: (error: any) => {
+
+        onError: (error: Error) => {
             toast.error(error.message || "حدث خطأ في السيرفر");
-        }
+        },
     });
 
     const handleSave = () => {

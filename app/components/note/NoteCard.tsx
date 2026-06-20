@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from 'react';
-import { FileText, Calendar, ExternalLink, MoreVertical, Edit3, Trash2 } from 'lucide-react';
+import { FileText, Calendar, ExternalLink, MoreVertical, Edit3, Trash2, BookOpen, GraduationCap } from 'lucide-react';
 import { Note } from '@/app/types';
 import Link from 'next/link';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -95,19 +95,50 @@ const NoteCard = ({ note }: { note: Note }) => {
           </div>
         </div>
 
-        {/* محتوى النص */}
+
+
         <div className="mb-6">
-          <h3 className="text-xl font-black text-slate-900 mb-2 group-hover:text-emerald-700 transition-colors line-clamp-1">
+
+          {/* Title */}
+          <h3 className="text-xl font-extrabold text-slate-900 mb-4 line-clamp-2 transition-colors group-hover:text-emerald-600">
             {note.title}
           </h3>
-          <div className="flex flex-wrap gap-2 justify-between">
-            <span className="px-3 py-1 bg-slate-100 text-slate-600 text-[10px] font-black rounded-lg uppercase tracking-wider">
-              {note.course?.title || "عام"}
-            </span>
-            <span className="px-3 py-1 bg-emerald-100 text-emerald-700 text-[10px] font-black rounded-lg uppercase tracking-wider">
-              {currentLevelCourse}
-            </span>
+
+          {/* Badges */}
+          <div className="flex flex-wrap gap-2 mb-4">
+
+            <div className="flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1.5">
+              <BookOpen size={13} className="text-slate-500" />
+              <span className="text-xs font-bold text-slate-700">
+                {note.course?.title || "عام"}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1.5">
+              <GraduationCap size={13} className="text-emerald-600" />
+              <span className="text-xs font-bold text-emerald-700">
+                {currentLevelCourse}
+              </span>
+            </div>
+
           </div>
+
+          {/* Lesson */}
+          {note.lesson?.title && (
+            <div className="flex items-center gap-2 rounded-xl border border-slate-100 bg-slate-50 px-3 py-2">
+
+              <FileText
+                size={15}
+                className="text-slate-400 shrink-0"
+              />
+
+              <p className="text-sm font-medium text-slate-600 truncate">
+                {note.lesson.title}
+              </p>
+
+            </div>
+          )}
+
         </div>
 
 

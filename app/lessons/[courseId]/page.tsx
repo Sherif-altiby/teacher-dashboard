@@ -51,9 +51,9 @@ export default function LessonsPage() {
         </div>
 
         {/* Lessons Grid */}
-        {lessons && lessons.length > 0 ? (
+        {lessons && lessons.lessons.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {lessons.map((lesson: any) => (
+            {lessons.lessons.map((lesson: any) => (
               <LessonCard lesson={lesson} key={lesson._id} />
             ))}
           </div>
