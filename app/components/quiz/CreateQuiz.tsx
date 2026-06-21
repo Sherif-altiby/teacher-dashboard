@@ -16,6 +16,7 @@ import CustomSelect from "../common/CustomSelect";
 import Image from "next/image";
 import { getCourseLessons, subjectCourses } from "@/app/services/coursesService";
 import MultiSelect from "../common/MultiSelect";
+import { useSearchParams } from "next/navigation";
 
 interface Question {
   title: string;
@@ -37,6 +38,16 @@ const CreateQuiz = () => {
   const user = useAuthStore((s) => s.user);
   const levels = useLevelStore((s) => s.levels);
   const { setSubjects } = useSubjectStore();
+
+  const query = useSearchParams()
+  
+  const qLevel = query.get("level")
+  const qCourse = query.get("course")
+  const qSubject = query.get("subject")
+  const qLesson = query.get("lesson")
+
+  const hasAllParams =
+  !!qLevel && !!qCourse && !!qSubject && !!qLesson;
 
 
   // --- State ---
@@ -84,6 +95,15 @@ const CreateQuiz = () => {
       e.target.style.unicodeBidi = 'plaintext';
     }
   };
+
+  useEffect(() => {
+  if (hasAllParams) {
+    setSelectedLevelId(qLevel!);
+    setSelectedSubjectId(qSubject!);
+    setSelectedCourseId(qCourse!);
+    setSelectedLessons([qLesson!]);
+  }
+}, [hasAllParams, qLevel, qSubject, qCourse, qLesson]);
 
   // --- Image Handling ---
   const handleImageUpload = (file: File, callback: (file: File, preview: string) => void) => {
@@ -351,56 +371,63 @@ const CreateQuiz = () => {
               </div>
             </div>
 
-            <div className="md:col-span-4 space-y-2">
-              <label className="text-xs font-bold text-slate-500 px-1 block">المستوى الدراسي</label>
-              <CustomSelect
-                value={selectedLevelId}
-                onChange={setSelectedLevelId}
-                options={levels.map((l) => ({ value: l._id, label: l.name }))}
-                icon={Layers}
-                placeholder="اختر المستوى"
-              />
-            </div>
+             {!hasAllParams && (
+  <>
+    <div className="md:col-span-4 space-y-2">
+      <label className="text-xs font-bold text-slate-500 px-1 block">
+        المستوى الدراسي
+      </label>
+      <CustomSelect
+        value={selectedLevelId}
+        onChange={setSelectedLevelId}
+        options={levels.map((l) => ({ value: l._id, label: l.name }))}
+        placeholder="اختر المستوى"
+      />
+    </div>
 
-            <div className="md:col-span-4 space-y-2">
-              <label className="text-xs font-bold text-slate-500 px-1 block">المادة</label>
-              <CustomSelect
-                value={selectedSubjectId}
-                onChange={(val) => {
-                  setSelectedSubjectId(val);
-                  setSelectedCourseId("");
-                }}
-                options={subjects.map((s: any) => ({ value: s._id, label: s.name }))}
-                icon={BookOpen}
-                placeholder="حدد المادة"
-              />
-            </div>
+    <div className="md:col-span-4 space-y-2">
+      <label className="text-xs font-bold text-slate-500 px-1 block">
+        المادة
+      </label>
+      <CustomSelect
+        value={selectedSubjectId}
+        onChange={setSelectedSubjectId}
+        options={subjects.map((s: any) => ({ value: s._id, label: s.name }))}
+        placeholder="حدد المادة"
+      />
+    </div>
 
-            <div className="md:col-span-4 space-y-2">
-              <label className="text-xs font-bold text-slate-500 px-1 block">الكورس</label>
-              <CustomSelect
-                value={selectedCourseId}
-                onChange={setSelectedCourseId}
-                options={availableCourses.map((c: any) => ({ value: c._id, label: c.title }))}
-                icon={LayoutGrid}
-                placeholder="اختر الكورس"
-                disabled={!selectedSubjectId}
-              />
-            </div>
+    <div className="md:col-span-4 space-y-2">
+      <label className="text-xs font-bold text-slate-500 px-1 block">
+        الكورس
+      </label>
+      <CustomSelect
+        value={selectedCourseId}
+        onChange={setSelectedCourseId}
+        options={availableCourses.map((c: any) => ({
+          value: c._id,
+          label: c.title,
+        }))}
+        placeholder="اختر الكورس"
+      />
+    </div>
 
-            <div className="md:col-span-4 space-y-2">
-              <label className="text-xs font-bold text-slate-500 px-1 block">الدروس</label>
-              <MultiSelect
-                value={selectedLessons}
-                onChange={setSelectedLessons}
-                options={lessons?.map((lesson: any) => ({
-                  value: lesson._id,
-                  label: lesson.title,
-                }))}
-                placeholder="اختر الدروس الخاصة بالاختبار"
-                icon={BookOpen}
-              />
-            </div>
+    <div className="md:col-span-4 space-y-2">
+      <label className="text-xs font-bold text-slate-500 px-1 block">
+        الدروس
+      </label>
+      <MultiSelect
+        value={selectedLessons}
+        onChange={setSelectedLessons}
+        options={lessons?.lessons?.map((l: any) => ({
+          value: l._id,
+          label: l.title,
+        }))}
+        placeholder="اختر الدروس"
+      />
+    </div>
+  </>
+)}
           </div>
         </div>
 

@@ -1,22 +1,35 @@
 import { API } from "@/app/constants";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Edit3, FileText, Play, Trash2 } from "lucide-react";
+import { Edit3, FileText, Play, Trash2, MoreVertical } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import UpdateLesson from "./UpdateLesson";
 import AddLessonNote from "../note/AddLessonNote";
+import Link from "next/link";
 
 const LessonCard = ({ lesson }: { lesson: any }) => {
   const queryClient = useQueryClient();
 
   const [showUpdateLesson, setShowUpdateLesson] = useState(false);
   const [showAddNote, setShowAddNote] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const getYouTubeThumbnail = (url: string) => {
     const videoId = url.split("v=")[1]?.split("&")[0] || url.split("/").pop();
     return `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
   };
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
@@ -37,9 +50,8 @@ const LessonCard = ({ lesson }: { lesson: any }) => {
     },
   });
 
-
   return (
-    <div className="bg-white rounded-xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-md transition-all group">
+    <div className="bg-white rounded-xl   border border-slate-100 shadow-sm hover:shadow-md transition-all group">
       {/* Thumbnail Section */}
       <div className="relative aspect-video w-full overflow-hidden bg-slate-200 h-[150px]">
         <Image
@@ -56,57 +68,74 @@ const LessonCard = ({ lesson }: { lesson: any }) => {
 
       {/* Content Section */}
       <div className="p-4">
-        <h3 className="font-bold text-slate-800 text-sm mb-1.5 line-clamp-1">
-          {lesson.title}
-        </h3>
-        <p className="text-slate-500 text-xs line-clamp-2 leading-relaxed mb-3">
-          {lesson.description}
-        </p>
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex-1 min-w-0">
+            <h3 className="font-bold text-slate-800 text-sm mb-1.5 line-clamp-1">
+              {lesson.title}
+            </h3>
+            <p className="text-slate-500 text-xs line-clamp-2 leading-relaxed">
+              {lesson.description}
+            </p>
+          </div>
 
-        {/* Management Buttons Row */}
-        {/* Management Buttons Row */}
-        <div className="grid grid-cols-3 gap-3 pt-4 border-t border-slate-50">
-          <button
-            onClick={() => setShowUpdateLesson(true)}
-            className="flex items-center justify-center gap-2 py-2 rounded-lg bg-blue-50 text-[#0066FF] text-xs hover:bg-[#0066FF] hover:text-white transition-all"
-          >
-            <Edit3 size={14} />
-            تعديل
-          </button>
+          {/* Three-dot menu */}
+          <div className="relative flex-shrink-0" ref={menuRef}>
+            <button
+              onClick={() => setMenuOpen((prev) => !prev)}
+              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-all"
+            >
+              <MoreVertical size={16} />
+            </button>
 
-          <button
-            onClick={() => setShowAddNote(true)}
-            className="flex items-center justify-center gap-2 py-2 rounded-lg bg-emerald-50 text-emerald-600 text-xs hover:bg-emerald-600 hover:text-white transition-all"
-          >
-            <FileText size={14} />
-            إضافة مذكرة
-          </button>
+            {menuOpen && (
+              <div className="absolute left-0 top-8 z-50 w-44 bg-white border border-slate-200 rounded-xl shadow-lg py-1 text-right">
+                <button
+                  onClick={() => { setShowUpdateLesson(true); setMenuOpen(false); }}
+                  className="flex items-center gap-2.5 w-full px-3 py-2 text-xs text-blue-600 hover:bg-blue-50 transition-colors"
+                >
+                  <Edit3 size={14} />
+                  تعديل
+                </button>
 
-          <button
-            onClick={() => mutate()}
-            className="flex items-center justify-center gap-2 py-2 rounded-lg bg-red-50 text-red-600 text-xs hover:bg-red-600 hover:text-white transition-all"
-          >
-            <Trash2 size={14} />
-            {isPending ? "جاري الحذف..." : "حذف"}
-          </button>
+                <button
+                  onClick={() => { setShowAddNote(true); setMenuOpen(false); }}
+                  className="flex items-center gap-2.5 w-full px-3 py-2 text-xs text-emerald-600 hover:bg-emerald-50 transition-colors"
+                >
+                  <FileText size={14} />
+                  إضافة مذكرة
+                </button>
+
+                <Link
+                  href={`/quizzes/create?level=${lesson.level}&course=${lesson.course}&subject=${lesson.subject}&lesson=${lesson._id}`}
+                  onClick={() => setMenuOpen(false)}
+                  className="flex items-center gap-2.5 w-full px-3 py-2 text-xs text-purple-600 hover:bg-purple-50 transition-colors"
+                >
+                  <FileText size={14} />
+                  إنشاء اختبار
+                </Link>
+
+                <div className="border-t border-slate-100 my-1" />
+
+                <button
+                  onClick={() => { mutate(); setMenuOpen(false); }}
+                  className="flex items-center gap-2.5 w-full px-3 py-2 text-xs text-red-600 hover:bg-red-50 transition-colors"
+                >
+                  <Trash2 size={14} />
+                  {isPending ? "جاري الحذف..." : "حذف"}
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
-
       {showUpdateLesson && (
-        <UpdateLesson
-          showUpdateLesson={setShowUpdateLesson}
-          lesson={lesson}
-        />
+        <UpdateLesson showUpdateLesson={setShowUpdateLesson} lesson={lesson} />
       )}
 
       {showAddNote && (
-        <AddLessonNote
-          lesson={lesson}
-          setShowAddNote={setShowAddNote}
-        />
+        <AddLessonNote lesson={lesson} setShowAddNote={setShowAddNote} />
       )}
-
     </div>
   );
 };
