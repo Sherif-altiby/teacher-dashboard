@@ -1,52 +1,125 @@
 "use client";
 
-import { BellOff, ArrowRight, Bell } from "lucide-react";
-import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import {
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { socket } from "../lib/socket";
+import { deleteNotification, fetchNotifications } from "../services/notificationsService";
+import NotificationSkeleton from "../skeleton/NotificationSkeleton";
 
-const NotificationsPage = () => {
-  const [isMounted, setIsMounted] = useState(false);
 
-  // Fix for Hydration Error #418
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
-  if (!isMounted) return null;
-
-  return (
-    <div className="min-h-[80vh] flex flex-col items-center justify-center p-6 text-right" dir="rtl">
-      <div className="max-w-md w-full text-center space-y-8">
-        
-        {/* Animated Icon Container */}
-        <div className="relative mx-auto w-32 h-32">
-          <div className="absolute inset-0 bg-indigo-100 rounded-full animate-ping opacity-20"></div>
-          <div className="relative bg-white rounded-full w-32 h-32 flex items-center justify-center shadow-xl shadow-indigo-500/10 border border-slate-100">
-            <BellOff size={48} className="text-slate-300" />
-            
-            {/* Small floating notification badge */}
-            <div className="absolute top-6 right-6 w-4 h-4 bg-slate-200 rounded-full border-4 border-white"></div>
-          </div>
-        </div>
-
-        {/* Text Content */}
-        <div className="space-y-3">
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">
-            لا توجد تنبيهات
-          </h1>
-          <p className="text-slate-500 font-medium leading-relaxed">
-            تبدو لوحة التنبيهات فارغة حالياً. عندما تتلقى أي إشعارات جديدة بخصوص اختباراتك أو طلابك، ستظهر هنا.
-          </p>
-        </div>
-
-        {/* Action Button */}
-      
-
-        
-
-      </div>
-    </div>
-  );
+type Notification = {
+  _id: string;
+  message: string;
+  isRead: boolean;
+  createdAt: string;
 };
 
-export default NotificationsPage;
+export default function NotificationPage({
+  userId,
+}: {
+  userId: string;
+}) {
+  const queryClient = useQueryClient();
+
+  // React Query
+  const { data, isLoading } = useQuery({
+    queryKey: ["notifications"],
+    queryFn: fetchNotifications,
+  });
+
+  const notifications: Notification[] = data?.data || [];
+
+  // Socket
+  useEffect(() => {
+    if (!userId) return;
+
+    socket.emit("join", userId);
+
+    socket.on("notification", (newNotification: Notification) => {
+      queryClient.setQueryData(
+        ["notifications"],
+        (old: any) => {
+          if (!old) return old;
+
+          return {
+            ...old,
+            data: [newNotification, ...old.data],
+          };
+        }
+      );
+    });
+
+    return () => {
+      socket.off("notification");
+    };
+  }, [userId, queryClient]);
+
+  // Delete
+  const handleDelete = async (id: string) => {
+    await deleteNotification(id);
+
+    queryClient.setQueryData(["notifications"], (old: any) => {
+      if (!old) return old;
+
+      return {
+        ...old,
+        data: old.data.filter((n: Notification) => n._id !== id),
+      };
+    });
+  };
+
+  return (
+    <div className="ctm-height">
+
+      {isLoading ? (
+        <NotificationSkeleton />
+      ) : notifications.length === 0 ? (
+        <div className="text-center text-gray-500 mt-10">
+          لا يوجد اشعارت
+        </div>
+      ) : (
+        <div className="container mx-auto px-4 lg:px-6 py-6 space-y-4">
+          {notifications.map((n) => (
+            <div
+              key={n._id}
+              className={`
+                relative group transition-all duration-200
+                border rounded-xl p-4 shadow-sm
+                hover:shadow-md hover:-translate-y-[2px]
+                ${n.isRead
+                  ? "bg-white"
+                  : "bg-blue-50 border-blue-200"
+                }
+              `}
+            >
+              {!n.isRead && (
+                <span className="absolute top-4 left-3 w-2.5 h-2.5 bg-blue-500 rounded-full"></span>
+              )}
+
+              <div className="pl-6 pr-10">
+                <p className="text-gray-800 font-medium">
+                  {n.message}
+                </p>
+
+                <p className="text-xs text-gray-400 mt-1">
+                  {new Date(n.createdAt).toLocaleString()}
+                </p>
+              </div>
+
+              <button
+                onClick={() => handleDelete(n._id)}
+                className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition text-red-500 hover:text-red-700 text-sm"
+              >
+                ✕
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
